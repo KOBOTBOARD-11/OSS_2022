@@ -41,3 +41,8 @@ data = json.dumps(d)
 results = db.child("files").push(data)
 print("OK")
 #####   Realtime 데이터베이스 업로드 #####
+
+
+## 데이터베이스에 저장된 모드 값들 출력
+files = db.child("files").get().val() #딕셔너리로 반환된다.
+print(files)

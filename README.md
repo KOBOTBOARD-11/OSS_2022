@@ -163,6 +163,7 @@ Video.document("Wild").set({
 ```python
 ### Cloud firestore ###
 
+#-*- coding:utf-8 -*-
 from firebase_admin import firestore
 from firebase_admin import credentials
 import firebase_admin

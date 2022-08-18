@@ -4,6 +4,10 @@ import collections
 from distutils.command.config import config
 import pyrebase
 import json
+from datetime import datetime
+
+from .Test import Token
+
 
 config = {
     "apiKey": "AIzaSyBqQjlNppEdPpjZrA64zEgkKfAIIPo-TE8",
@@ -17,6 +21,7 @@ config = {
     "serviceAccount": "serviceAcc.json"
 }
 
+
 ## firebase sotrage 실행 ###
 firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
@@ -25,14 +30,20 @@ storage = firebase.storage()
 
 #####   데이터 업로드 #####
 ## 첫 번째는 데이터베이스에 보여지길 원하는 이름을 적고 그 다음에는 업로드할 파일의 경로를 적어준다.
-# storge.child("fire").put(r"video/fire.mp4")
+filename = "fire" + datetime.now()
+storage.child(filename).put(r"video/fire.mp4")
 #####   데이터 업로드 #####
 
 
 #####   데이터 다운로드 #####
 ## 첫 번째는 다운로드 하고싶은 파일에 이름을 적고 그 다음에는 다운로드 받은 파일을 로컬 pc에 저장할 이름이다.
-# storage.download("fire", "fires.mp4")
+# storage.download("filename", "fires.mp4")
 #####   데이터 다운로드 #####
+
+##### 데이터 삭제 #####
+Token = "ossvideo-5e684.appspot.com"
+storage.delete(filename, Token + filename)
+##### 데이터 삭제 #####
 
 
 #####   Realtime 데이터베이스 업로드 #####

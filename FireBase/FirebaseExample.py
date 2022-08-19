@@ -6,7 +6,7 @@ import pyrebase
 import json
 from datetime import datetime
 
-from .Test import Token
+from .SaveVideo import Token
 
 
 config = {

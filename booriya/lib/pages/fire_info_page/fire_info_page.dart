@@ -1,11 +1,13 @@
 import 'package:booriya/Colors.dart';
 import 'package:booriya/common/info_form_field.dart';
+import 'package:booriya/pages/fire_info_page/components/video_play.dart';
 import 'package:booriya/styles.dart';
 import 'package:flutter/material.dart';
 
 class FireInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final url;
     return Scaffold(
       appBar: AppBar(
         title: Text("화재 발생 정보"),
@@ -24,7 +26,7 @@ class FireInfoPage extends StatelessWidget {
           height: double.infinity,
           child: Column(
             children: [
-              _buildVideo(),
+              _buildVideo(url),
               _buildInfo(),
             ],
           ),
@@ -33,20 +35,14 @@ class FireInfoPage extends StatelessWidget {
     );
   }
 
-  Widget _buildVideo() {
+  Widget _buildVideo(final url) {
     return Column(
       children: [
         Text(
           "화재 발생 영상",
           style: h5(),
         ),
-        Container(
-          width: 320,
-          height: 200,
-          decoration: BoxDecoration(
-            color: Colors.black,
-          ),
-        ),
+        VideoPlayerScreen(url),
         SizedBox(height: 10),
       ],
     );

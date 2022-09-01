@@ -18,6 +18,8 @@ import numpy as np
 import time # -- 프레임 계산을 위해 사용
 
 check = False
+roomName = "1층 로비 CCTV"
+location = "성북구 코보 레스토랑"
 vedio_path = './video.mp4' #-- 사용할 영상 경로
 min_confidence = 0.5
 
@@ -108,7 +110,7 @@ def detectAndDisplay(frame):
             cv2.putText(img, label, (x, y - 5), font, 1, color, 1)
     end_time = time.time()
     process_time = end_time - detect_time
-    # print("=== A frame took {:.3f} seconds".format(process_time))
+    print("=== A frame took {:.3f} seconds".format(process_time))
     cv2.imshow("YOLO", img)
     
     
@@ -137,6 +139,7 @@ while True:
         print('--(!) No captured frame -- Break!')
         break
     #-- detect
+    detect_time = time.time()
     img = cv2.resize(frame, None, fx=1, fy=1)
     height, width, channels = img.shape
     #cv2.imshow("Original Image", img)
@@ -155,13 +158,14 @@ while True:
             confidence = scores[class_id]
             
             #-- 원하는 class id 입력 / coco.names의 id에서 -1 할 것 
-            if class_id == 0 and confidence > min_confidence:
+            if confidence > min_confidence:
                 #-- 탐지한 객체 박싱
                 
                 center_x = int(detection[0] * width)
                 center_y = int(detection[1] * height)
                 w = int(detection[2] * width)
                 h = int(detection[3] * height)
+                # print(center_x, center_y)
                
                 x = int(center_x - w / 2)
                 y = int(center_y - h / 2)
@@ -184,12 +188,13 @@ while True:
             X,Y,W,H = x,y,w,h
             label = "{}: {:.2f}".format(classes[class_ids[i]], confidences[i]*100)
             LABEL = label
-            print(i, label)
+            # print(i, label)
             color = colors[i] #-- 경계 상자 컬러 설정 / 단일 생상 사용시 (255,255,255)사용(B,G,R)
             COLOR = color
             cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
             cv2.putText(img, label, (x, y - 5), font, 1, color, 1)
-    # print("=== A frame took {:.3f} seconds".format(process_time))
+    process_time = time.time() - detect_time
+    print("=== A frame took {:.3f} seconds".format(process_time))
     cv2.imshow("YOLO", img)
     
     cv2.rectangle(frame, (X, Y), (X + W, Y + H), COLOR, 2)
@@ -220,14 +225,16 @@ while True:
             #-- 화재발생 시 더이상 삭제하지 않고 데이터베이스에 저장
             fileUrl = storage.child(filename).get_url(1) #0은 저장소 위치 1은 다운로드 url 경로
             fileUrl_1 =  storage.child(filename).get_url(0) #0은 저장소 위치 1은 다운로드 url 경로
-            Video.document("FIRE"+ datetime.now().strftime('%Y-%m-%d %H:%M:%S')).set({
-                'date' : datetime.today().strftime("%Y%m%d_%H%M%S"),
-                'downloadurl' : fileUrl,
-                'storage_url' : fileUrl_1
+            Video.document("FIRE"+ datetime.now().strftime('%Y년 %m월 %d일') +"_"+str(Number)).set({
+                
+                'detected_Time' : datetime.today().strftime("%Y년 %m월 %d일"),
+                'FireVideo' : fileUrl_1,
+                'Location' : location,
+                'Room_name' :  roomName
             })
             
         Number +=1
-        if Number >5:
+        if Number >3:
             check = True 
         
         Start_Time = time.time()

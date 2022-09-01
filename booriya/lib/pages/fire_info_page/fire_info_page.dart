@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 class FireInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final url;
+    final String url =
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4';
     return Scaffold(
       appBar: AppBar(
         title: Text("화재 발생 정보"),
@@ -24,7 +25,7 @@ class FireInfoPage extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: double.infinity,
-          child: Column(
+          child: ListView(
             children: [
               _buildVideo(url),
               _buildInfo(),
@@ -35,14 +36,14 @@ class FireInfoPage extends StatelessWidget {
     );
   }
 
-  Widget _buildVideo(final url) {
+  Widget _buildVideo(String url) {
     return Column(
       children: [
         Text(
           "화재 발생 영상",
           style: h5(),
         ),
-        VideoPlayerScreen(url),
+        VideoPlayerScreen(url: url),
         SizedBox(height: 10),
       ],
     );

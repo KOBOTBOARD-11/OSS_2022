@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
-  final Url;
+  final String url;
 
-  const VideoPlayerScreen({required this.Url});
+  const VideoPlayerScreen({required this.url});
   @override
-  _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
+  _VideoPlayerScreenState createState() => _VideoPlayerScreenState(url);
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
+  final String url;
 
+  _VideoPlayerScreenState(this.url);
   @override
   void initState() {
     // VideoPlayerController를 저장하기 위한 변수를 만듭니다. VideoPlayerController는
     // asset, 파일, 인터넷 등의 영상들을 제어하기 위해 다양한 생성자를 제공합니다.
     _controller = VideoPlayerController.network(
-      'https://firebasestorage.googleapis.com/v0/b/oss-booriya.appspot.com/o/fire?alt=media&token=602c710f-bee7-4595-88c0-ce7b9852c716',
+      url,
     );
 
     // 컨트롤러를 초기화하고 추후 사용하기 위해 Future를 변수에 할당합니다.

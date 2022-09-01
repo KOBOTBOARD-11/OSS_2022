@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1022496752424",
+    "firebase_url": "https://firefire-ca4d0-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "firefire-ca4d0",
+    "storage_bucket": "firefire-ca4d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022496752424:android:decefdb148ac7fdc53861d",
+        "android_client_info": {
+          "package_name": "com.example.booriya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022496752424-ob4jnit2an5kruf3cf46t1a5gtqe4efd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQcMldvTCXX55v49e_j-OaE_41gnYOaf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022496752424-ob4jnit2an5kruf3cf46t1a5gtqe4efd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1022496752424-fnn3bneei5j5po62l8da1hsfpst6el4r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.booriya"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

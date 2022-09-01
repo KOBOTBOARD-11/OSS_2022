@@ -8,7 +8,11 @@ class FireInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String url =
+<<<<<<< HEAD
         'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4';
+=======
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4';
+>>>>>>> 43441de907cc079e93e3762fb29c9ef01836c439
     return Scaffold(
       appBar: AppBar(
         title: Text("화재 발생 정보"),
@@ -36,14 +40,22 @@ class FireInfoPage extends StatelessWidget {
     );
   }
 
+<<<<<<< HEAD
   Widget _buildVideo() {
+=======
+  Widget _buildVideo(String url) {
+>>>>>>> 43441de907cc079e93e3762fb29c9ef01836c439
     return Column(
       children: [
         Text(
           "화재 발생 영상",
           style: h5(),
         ),
+<<<<<<< HEAD
         VideoPlayerScreen(),
+=======
+        VideoPlayerScreen(url: url),
+>>>>>>> 43441de907cc079e93e3762fb29c9ef01836c439
         SizedBox(height: 10),
       ],
     );

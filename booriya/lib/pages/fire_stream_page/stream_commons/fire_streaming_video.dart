@@ -13,7 +13,8 @@ class VideoStream extends StatefulWidget {
 }
 
 class _VideoStreamState extends State<VideoStream> {
-  final WebSocket _socket = WebSocket("ws://172.20.144.1:6000");
+  // 자신 컴퓨터 ip 찾아서 넣으십쇼!
+  final WebSocket _socket = WebSocket("ws://[PC_ip]:6000");
   bool _isConnected = false;
   void connect(BuildContext context) async {
     _socket.connect();

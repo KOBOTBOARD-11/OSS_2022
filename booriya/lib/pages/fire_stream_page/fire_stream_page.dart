@@ -22,8 +22,9 @@ class FireStreamPage extends StatelessWidget {
         alignment: Alignment.center,
         child: Column(
           children: [
-            // cctv
-            VideoStream()
+            // cctv1, 2
+            VideoStream(),
+            // VideoStream()
           ],
         ),
       ),

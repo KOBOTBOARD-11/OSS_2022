@@ -4,12 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../Colors.dart';
 
-// class StreamArguments {
-//   final String cctvName;
-//
-//   StreamArguments({required this.cctvName});
-// }
-
 class FireStreamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -28,8 +22,8 @@ class FireStreamPage extends StatelessWidget {
         alignment: Alignment.center,
         child: Column(
           children: [
-            FireStreamingVideo(cctvName: "1층 로비"),
-            FireStreamingVideo(cctvName: "1층 조리실"),
+            // cctv
+            VideoStream()
           ],
         ),
       ),

@@ -1,29 +1,83 @@
-import 'package:booriya/styles.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'websockets.dart';
 
-class FireStreamingVideo extends StatelessWidget {
-  final String cctvName;
+class VideoStream extends StatefulWidget {
+  const VideoStream({Key? key}) : super(key: key);
 
-  const FireStreamingVideo({required this.cctvName});
+  @override
+  State<VideoStream> createState() => _VideoStreamState();
+}
+
+class _VideoStreamState extends State<VideoStream> {
+  final WebSocket _socket = WebSocket("ws://172.20.144.1:6000");
+  bool _isConnected = false;
+  void connect(BuildContext context) async {
+    _socket.connect();
+    setState(() {
+      _isConnected = true;
+    });
+    print('Try to connect server!');
+  }
+
+  void disconnect() {
+    _socket.disconnect();
+    setState(() {
+      _isConnected = false;
+    });
+    print('Server disconnected!');
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
+    return Center(
       child: Column(
         children: [
-          Text(
-            "${cctvName}",
-            style: subtitle3(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ElevatedButton(
+                onPressed: () => connect(context),
+                child: const Text("Connect"),
+              ),
+              ElevatedButton(
+                onPressed: disconnect,
+                child: const Text("Disconnect"),
+              ),
+            ],
           ),
-          SizedBox(height: 15),
-          Container(
-            width: double.infinity,
-            height: 200,
-            decoration: BoxDecoration(
-              color: Colors.black,
-            ),
+          const SizedBox(
+            height: 50.0,
           ),
+          _isConnected
+              ? StreamBuilder(
+                  stream: _socket.stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      print('socket does not have data!');
+                      return const CircularProgressIndicator();
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return const Center(
+                        child: Text("Connection Closed !"),
+                      );
+                    }
+                    //? Working for single frames
+                    return Image.memory(
+                      Uint8List.fromList(
+                        base64Decode(
+                          (snapshot.data.toString()),
+                        ),
+                      ),
+                      gaplessPlayback: true,
+                      excludeFromSemantics: true,
+                    );
+                  },
+                )
+              : const Text("Initiate Connection")
         ],
       ),
     );

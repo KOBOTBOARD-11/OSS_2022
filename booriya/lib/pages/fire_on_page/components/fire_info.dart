@@ -1,15 +1,23 @@
 import 'package:booriya/Colors.dart';
+import 'package:booriya/pages/fire_info_page/fire_info_page.dart';
+import 'package:booriya/pages/fire_on_page/fire_on.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FireInfo extends StatelessWidget {
-  const FireInfo({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, "/info");
+        print([url, location, roomName, date].runtimeType);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FireInfoPage(
+              dataList: [url, location, roomName, date],
+            ),
+          ),
+        );
       },
       child: Container(
         width: 140,

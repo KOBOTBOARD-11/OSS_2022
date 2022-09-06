@@ -32,34 +32,50 @@ class _FireOnState extends State<FireOn> {
     location = doc_ref.data()?['Location'];
     roomName = doc_ref.data()?['Room_name'];
     date = doc_ref.data()?['detected_Time'].toDate();
-    return [url, location, roomName, date];
+    List<dynamic> dataList = [url, location, roomName, date];
+    return dataList;
   }
 
   @override
   Widget build(BuildContext context) {
-    print(_dataList);
     return Scaffold(
       appBar: _buildBooriyaAppBar(),
-      body: Column(
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 20),
-          FireClock(), // 화재 지속시간
-          SizedBox(height: 20),
-          FireStreaming(), // 실시간 스트리밍
-          SizedBox(height: 40),
-          Row(
-            // 화재 정보와 인원 감지
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FireInfo(),
-              SizedBox(width: 20),
-              FireDetect(),
-            ],
-          ),
-          SizedBox(height: 40),
-          FireFinish(), // 화재 진화 완료
-        ],
+      body: FutureBuilder(
+        future: _dataList,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Column(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 20),
+                FireClock(), // 화재 지속시간
+                SizedBox(height: 20),
+                FireStreaming(), // 실시간 스트리밍
+                SizedBox(height: 40),
+                Row(
+                  // 화재 정보와 인원 감지
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FireInfo(),
+                    SizedBox(width: 20),
+                    FireDetect(),
+                  ],
+                ),
+                SizedBox(height: 40),
+                FireFinish(), // 화재 진화 완료
+              ],
+            );
+          } else {
+            return Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: backgroundColor(),
+              child: Center(
+                child: CircularProgressIndicator(color: appBarColor()),
+              ),
+            );
+          }
+        },
       ),
     );
   }

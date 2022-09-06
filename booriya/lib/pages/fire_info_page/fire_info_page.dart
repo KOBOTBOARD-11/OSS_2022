@@ -5,36 +5,19 @@ import 'package:booriya/styles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-var url = "";
-var location = "";
-var roomName = "";
-var date;
+import '../fire_on_page/fire_on.dart';
 
-class FireInfoPage extends StatefulWidget {
-  @override
-  State<FireInfoPage> createState() => _FireInfoPageState();
-}
+class FireInfoPage extends StatelessWidget {
+  final dataList;
 
-class _FireInfoPageState extends State<FireInfoPage> {
-  late Future<List> _dataList;
-
-  void initState() {
-    _dataList = _buildDb();
-    super.initState();
-  }
-
-  Future<List> _buildDb() async {
-    var db = FirebaseFirestore.instance;
-    var doc_ref = await db.collection("Video").doc('FIRE2022년 09월 01일').get();
-    url = doc_ref.data()?['FireVideo'];
-    location = doc_ref.data()?['Location'];
-    roomName = doc_ref.data()?['Room_name'];
-    date = doc_ref.data()?['detected_Time'].toDate();
-    return [url, location, roomName, date];
-  }
+  const FireInfoPage({this.dataList});
 
   @override
   Widget build(BuildContext context) {
+    var url = dataList[0];
+    var location = dataList[1];
+    var roomName = dataList[2];
+    var date = dataList[3];
     return Scaffold(
       appBar: AppBar(
         title: Text("화재 발생 정보"),
@@ -52,7 +35,10 @@ class _FireInfoPageState extends State<FireInfoPage> {
           width: double.infinity,
           height: double.infinity,
           child: ListView(
-            children: [_buildVideo(url), _buildInfo()],
+            children: [
+              _buildVideo(url),
+              _buildInfo(location, roomName, date),
+            ],
           ),
         ),
       ),
@@ -72,58 +58,42 @@ class _FireInfoPageState extends State<FireInfoPage> {
     );
   }
 
-  Widget _buildInfo() {
-    return FutureBuilder(
-      future: _dataList,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Column(
-            children: [
-              Text(
-                "화재 발생 상세 정보",
-                style: h5(),
-              ),
-              Container(
-                width: 300,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: backgroundColor(),
-                ),
-                child: SizedBox(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InfoFormField(
-                        titleText: "1. 화재 감지 시간",
-                        infoText: "${date}",
-                      ),
-                      SizedBox(height: 10),
-                      InfoFormField(
-                        titleText: "2. 장소",
-                        infoText: location,
-                      ),
-                      SizedBox(height: 10),
-                      InfoFormField(
-                        titleText: "3. 발화 장소",
-                        infoText: roomName,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          );
-        } else {
-          return Container(
-            width: 300,
-            height: 270,
+  Widget _buildInfo(String location, String roomName, DateTime date) {
+    return Column(
+      children: [
+        Text(
+          "화재 발생 상세 정보",
+          style: h5(),
+        ),
+        Container(
+          width: 300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
             color: backgroundColor(),
-            child: Center(
-              child: CircularProgressIndicator(color: appBarColor()),
+          ),
+          child: SizedBox(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InfoFormField(
+                  titleText: "1. 화재 감지 시간",
+                  infoText: "${date}",
+                ),
+                SizedBox(height: 10),
+                InfoFormField(
+                  titleText: "2. 장소",
+                  infoText: location,
+                ),
+                SizedBox(height: 10),
+                InfoFormField(
+                  titleText: "3. 발화 장소",
+                  infoText: roomName,
+                ),
+              ],
             ),
-          );
-        }
-      },
+          ),
+        ),
+      ],
     );
   }
 
@@ -171,8 +141,13 @@ class _FireInfoPageState extends State<FireInfoPage> {
               }
               break;
           }
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/${DrawerText}", (route) => false);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FireInfoPage(
+                        dataList: [url, location, roomName, date],
+                      )),
+              (route) => false);
         },
         child: Container(
           height: 50,

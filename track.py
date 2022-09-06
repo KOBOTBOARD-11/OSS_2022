@@ -173,8 +173,8 @@ def run(
     # Run tracking
     FLAG = False #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     FIREFLAG = False
-    COUNT = 0
-    FIRECOUNT = 0
+    COUNT = 0 #처음부터 측정
+    FIRECOUNT = 0 #화재 발생 후 부터 측정
     NUMBER = 0
     TIME = 0 
     z = 0
@@ -303,7 +303,6 @@ def run(
                 
                 current_Time = datetime.datetime.now()
                 n = n.to("cpu")
-                
                 # LOGGER.info(str(n.numpy())) # 인원수
                 # LOGGER.info(current_Time.strftime('%Y년 %m월%d일 %H시%M분%S초\n'))
 
@@ -329,20 +328,24 @@ def run(
             prev_frames[i] = curr_frames[i] # 이 코드없으면 강제 종료
             
             print(" COUNT TIME :" + str(TIME))
-            if TIME == 3:
+            if TIME == 5:
                 
                 print("============================================================")
                 z += 1
-                save_path = str(Path('videoBox/fire/' + 'fire_' + str(z)).with_suffix('.mp4'))
+                save_path = str(Path('videoBox/fire/' + 'fire_' + str(z)).with_suffix('.mp4')) #동영상 파일 저장 경로
                 VOUT = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
+                image_path = str(Path('humanPic/' + 'human_' + str(z) + ".jpg")) #이미지 파일 저장 경로
+                cv2.imwrite(image_path, im0)
                 start_time = time.time()
             
                  
                 
                 if COUNT >= 1 and FIREFLAG == False: 
-                    storage.delete("before_fire" + str(NUMBER), Token + './videoBox/fire/fire_' + str(NUMBER) + '.mp4')
-
-                storage.child("before_fire" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/videoBox/fire/fire_' + str(NUMBER+1) + '.mp4')
+                    storage.delete("before_fire/video/" + str(NUMBER), Token + './videoBox/fire/fire_' + str(NUMBER) + '.mp4')
+                # --------------------화재 발생 전
+                
+                storage.child("before_fire/video/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/videoBox/fire/fire_' + str(NUMBER+1) + '.mp4')
+                storage.child("before_fire/image/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/humanPic/human_' + str(NUMBER+1) + '.jpg')
                 NUMBER += 1
                 COUNT += 1
                 
@@ -351,11 +354,26 @@ def run(
                     Video = db.collection("first_fireC")
                     FIRECOUNT += 1
                     Video.document("first_fireD").set({
-                        'detected_Time' : datetime.datetime.now().strftime("%Y년 %m월 %d일"),
-                        'FireVideo' : storage.child("before_fire" + str(NUMBER)).get_url(1),
+                        'detected_Time' : datetime.datetime.now().strftime("['%Y년 %m월 %d일 %H시 %M분 %S초']"),
+                        'FireVideo' : storage.child("before_fire/video/" + str(NUMBER)).get_url(1),
+                        'FireImage' : storage.child("before_fire/image/" + str(NUMBER)).get_url(1),
                         'Location' : location,
                         'Room_name' : roomName
                     })
+                
+                if FIREFLAG == True and FIRECOUNT >= 1 and TIME == 5:
+                    Video = db.collection("fire situation_C")
+                    FIRECOUNT += 1
+                    Video.document("fire situation_D").set({
+                        'detected_Time' : datetime.datetime.now().strftime("['%Y년 %m월 %d일 %H시 %M분 %S초']"),
+                        'FireVideo' : storage.child("before_fire/video/" + str(NUMBER)).get_url(1),
+                        'FireImage' : storage.child("before_fire/image/" + str(NUMBER)).get_url(1),
+                        'Location' : location,
+                        'Room_name' : roomName,
+                        'FIRECOUNT': FIRECOUNT
+                    })
+                
+                    
                     
                     
             

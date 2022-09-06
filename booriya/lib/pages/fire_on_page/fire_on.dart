@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../Colors.dart';
 import 'components/fire_detect.dart';
@@ -6,9 +7,37 @@ import 'components/fire_info.dart';
 import 'components/fire_streaming.dart';
 import 'components/fire_clock.dart';
 
-class FireOn extends StatelessWidget {
+var url;
+var location;
+var roomName;
+var date;
+
+class FireOn extends StatefulWidget {
+  @override
+  State<FireOn> createState() => _FireOnState();
+}
+
+class _FireOnState extends State<FireOn> {
+  late Future<List> _dataList;
+
+  void initState() {
+    _dataList = _buildDb();
+    super.initState();
+  }
+
+  Future<List> _buildDb() async {
+    var db = FirebaseFirestore.instance;
+    var doc_ref = await db.collection("Video").doc('FIRE2022년 09월 01일').get();
+    url = doc_ref.data()?['FireVideo'];
+    location = doc_ref.data()?['Location'];
+    roomName = doc_ref.data()?['Room_name'];
+    date = doc_ref.data()?['detected_Time'].toDate();
+    return [url, location, roomName, date];
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(_dataList);
     return Scaffold(
       appBar: _buildBooriyaAppBar(),
       body: Column(

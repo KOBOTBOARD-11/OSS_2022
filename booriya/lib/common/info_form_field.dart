@@ -1,11 +1,22 @@
 import 'package:booriya/styles.dart';
 import 'package:flutter/material.dart';
 
-class InfoFormField extends StatelessWidget {
+class InfoFormField extends StatefulWidget {
   final titleText;
   final infoText;
 
   const InfoFormField({required this.titleText, required this.infoText});
+
+  @override
+  State<InfoFormField> createState() =>
+      _InfoFormFieldState(titleText, infoText);
+}
+
+class _InfoFormFieldState extends State<InfoFormField> {
+  final titleText;
+  final infoText;
+
+  _InfoFormFieldState(this.titleText, this.infoText);
 
   @override
   Widget build(BuildContext context) {

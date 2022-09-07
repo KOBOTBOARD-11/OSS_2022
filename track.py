@@ -177,6 +177,7 @@ def run(
     FIRECOUNT = 0 #화재 발생 후 부터 측정
     NUMBER = 0
     TIME = 0 
+    HUMANCOUNT = 0
     z = 0
     location = '국민대 미래관 6층'
     roomName = '코봇 동아리방'
@@ -289,9 +290,14 @@ def run(
                             #     LOGGER.info("연기입니다.")
                             
                             if(c == 1) : # 화재 감지
-                                LOGGER.info(" === !!! === 화 재 발 생 === !!! === ")
+                                LOGGER.info("!!! === 화 재 발 생 === !!!")
                                 FIREFLAG = True
                                 
+                            #c -> 종류
+                            #n -> 수/양
+                            if c == 0:
+                                HUMANCOUNT = ((n.to("cpu")).numpy())
+                                print("사람수는 : " + str(HUMANCOUNT))
                                 
                             
                             label = None if hide_labels else (f'{id} {names[c]}' if hide_conf else 
@@ -300,16 +306,16 @@ def run(
                             if save_crop:
                                 txt_file_name = txt_file_name if (isinstance(path, list) and len(path) > 1) else ''
                                 save_one_box(bboxes, imc, file=save_dir / 'crops' / txt_file_name / names[c] / f'{id}' / f'{p.stem}.jpg', BGR=True)
-                
-                current_Time = datetime.datetime.now()
-                n = n.to("cpu")
+
+                # n = n.to("cpu")
                 # LOGGER.info(str(n.numpy())) # 인원수
+                # current_Time = datetime.datetime.now()    
                 # LOGGER.info(current_Time.strftime('%Y년 %m월%d일 %H시%M분%S초\n'))
 
             else:
                 current_Time = datetime.datetime.now()
                 strongsort_list[i].increment_ages()
-                LOGGER.info('===NO DETECTIONS===\n')
+                LOGGER.info('@@@ NO DETECTIONS @@@\n')
                 # LOGGER.info(current_Time.strftime('%Y년 %m월%d일 %H시%M분%S초')) OPTIONAL
 
             # Stream results
@@ -327,6 +333,7 @@ def run(
             VOUT.write(im0)
             prev_frames[i] = curr_frames[i] # 이 코드없으면 강제 종료
             
+            
             print(" COUNT TIME :" + str(TIME))
             if TIME == 5:
                 
@@ -338,7 +345,7 @@ def run(
                 cv2.imwrite(image_path, im0)
                 start_time = time.time()
             
-                 
+                
                 
                 if COUNT >= 1 and FIREFLAG == False: 
                     storage.delete("before_fire/video/" + str(NUMBER), Token + './videoBox/fire/fire_' + str(NUMBER) + '.mp4')
@@ -348,7 +355,7 @@ def run(
                 storage.child("before_fire/image/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/humanPic/human_' + str(NUMBER+1) + '.jpg')
                 NUMBER += 1
                 COUNT += 1
-                
+                            
                 if FIREFLAG == True and FIRECOUNT == 0:
                     print("fireflag : " + str(FIREFLAG))
                     Video = db.collection("first_fireC")
@@ -358,7 +365,8 @@ def run(
                         'FireVideo' : storage.child("before_fire/video/" + str(NUMBER)).get_url(1),
                         'FireImage' : storage.child("before_fire/image/" + str(NUMBER)).get_url(1),
                         'Location' : location,
-                        'Room_name' : roomName
+                        'Room_name' : roomName,
+                        'HumanCount' : str(HUMANCOUNT)
                     })
                 
                 if FIREFLAG == True and FIRECOUNT >= 1 and TIME == 5:
@@ -370,6 +378,7 @@ def run(
                         'FireImage' : storage.child("before_fire/image/" + str(NUMBER)).get_url(1),
                         'Location' : location,
                         'Room_name' : roomName,
+                        'HumanCount' : str(HUMANCOUNT),
                         'FIRECOUNT': FIRECOUNT
                     })
                 

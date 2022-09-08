@@ -37,6 +37,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
       endDrawer: _buildBooriyaDrawer(context),
       body: StreamBuilder<QuerySnapshot>(
           stream: _snapshot,
+          initialData: null,
           builder: (context, snapshot) {
             if (snapshot.data!.docs.isEmpty) {
               return Container(
@@ -60,8 +61,8 @@ class _FireDetectPageState extends State<FireDetectPage> {
               );
             } else {
               if (detectInfo.isEmpty ||
-                  snapshot.data!.docs.last['date'] != detectInfo.last['date']) {
-                detectInfo.add(snapshot.data!.docs.last.data());
+                  snapshot.data?.docs.last['date'] != detectInfo.last['date']) {
+                detectInfo.add(snapshot.data?.docs.last.data());
                 print(detectInfo);
               }
 

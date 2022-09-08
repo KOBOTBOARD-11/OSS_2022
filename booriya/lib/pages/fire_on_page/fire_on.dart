@@ -45,11 +45,12 @@ class _FireOnState extends State<FireOn> {
         future: _dataList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Column(
+            return ListView(
+              padding: EdgeInsets.symmetric(horizontal: 45),
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 20),
-                FireClock(), // 화재 지속시간
+                TimerPage(), // 화재 지속시간
                 SizedBox(height: 20),
                 FireStreaming(), // 실시간 스트리밍
                 SizedBox(height: 40),

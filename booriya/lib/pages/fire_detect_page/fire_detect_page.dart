@@ -27,14 +27,8 @@ class _FireDetectPageState extends State<FireDetectPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("화재 발생 정보"),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(context, "/on", (route) => false);
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
       ),
-      endDrawer: _buildBooriyaDrawer(context),
+      // endDrawer: _buildBooriyaDrawer(context),
       body: StreamBuilder<QuerySnapshot>(
           stream: _snapshot,
           initialData: null,

@@ -4,7 +4,6 @@ import 'package:booriya/pages/fire_info_page/fire_info_page.dart';
 import 'package:booriya/pages/fire_off_page/fire_off.dart';
 import 'package:booriya/pages/fire_on_page/fire_on.dart';
 import 'package:booriya/pages/fire_stream_page/fire_stream_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

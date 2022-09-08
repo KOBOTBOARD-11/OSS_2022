@@ -9,16 +9,8 @@ class FireStreamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("화재 발생 정보"),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(context, "/on", (route) => false);
-          },
-          icon: Icon(Icons.arrow_back),
-        ),
-      ),
-      endDrawer: _buildBooriyaDrawer(context),
+      appBar: AppBar(title: Text("화재 발생 정보")),
+      // endDrawer: _buildBooriyaDrawer(context),
       body: Container(
         alignment: Alignment.center,
         child: Column(

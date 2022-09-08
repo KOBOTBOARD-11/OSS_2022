@@ -1,11 +1,29 @@
+import 'dart:async';
+
 import 'package:booriya/pages/fire_detect_page/fire_detect_page_detail.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../Colors.dart';
+import '../../common/fire_drawer.dart';
 import '../../styles.dart';
+import 'detect_info_datalist.dart';
 
-class FireDetectPage extends StatelessWidget {
+class FireDetectPage extends StatefulWidget {
   @override
+  State<FireDetectPage> createState() => _FireDetectPageState();
+}
+
+class _FireDetectPageState extends State<FireDetectPage> {
+  // StreamController streamctrl = StreamController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
+    var _snapshot = FirebaseFirestore.instance.collection('Human').snapshots();
+    //print("hi");
     return Scaffold(
       appBar: AppBar(
         title: Text("화재 발생 정보"),
@@ -17,52 +35,92 @@ class FireDetectPage extends StatelessWidget {
         ),
       ),
       endDrawer: _buildBooriyaDrawer(context),
-      body: Align(
-        alignment: Alignment.center,
-        child: ListView(
-          children: [
-            _buildDetectButton("1층 로비(CCTV 1)", context),
-            _buildDetectButton("1층 조리실(CCTV 2)", context),
-            // _buildDetectButton("2층 조리실(CCTV 3)", context),
-            // _buildDetectButton("2층 엘리베이터(CCTV 4)", context),
-            // _buildDetectButton("3층 로비(CCTV 5)", context),
-            // _buildDetectButton("4층 로비(CCTV 6)", context),
-          ],
-        ),
-      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: _snapshot,
+          builder: (context, snapshot) {
+            if (snapshot.data!.docs.isEmpty) {
+              return Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Center(
+                  child: Text(
+                    "No Data",
+                    style: h4(),
+                  ),
+                ),
+              );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: backgroundColor(),
+                child: Center(
+                  child: CircularProgressIndicator(color: appBarColor()),
+                ),
+              );
+            } else {
+              if (detectInfo.isEmpty ||
+                  snapshot.data!.docs.last['date'] != detectInfo.last['date']) {
+                detectInfo.add(snapshot.data!.docs.last.data());
+                print(detectInfo);
+              }
+
+              return Align(
+                alignment: Alignment.center,
+                child: ListView.builder(
+                  itemCount: detectInfo.length,
+                  itemBuilder: (context, index) {
+                    return _buildDetectButton(
+                      detectInfo[index]['cctvName'],
+                      detectInfo[index]['date']!.toDate(),
+                      detectInfo[index]['count'],
+                      context,
+                    );
+                  },
+                ),
+              );
+            }
+          }),
     );
   }
 
-  Widget _buildDetectButton(String cctvName, BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: SizedBox(
-            height: 110,
-            width: double.infinity,
-            child: TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: backgroundColor(),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+  Widget _buildDetectButton(
+      String cctvName, DateTime date, String count, BuildContext context) {
+    return Dismissible(
+      key: Key(cctvName),
+      child: Card(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: SizedBox(
+                height: 110,
+                width: double.infinity,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: backgroundColor(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      "/detail",
+                      arguments: DetailArguments(
+                          cctvName: cctvName, date: date, count: count),
+                    );
+                  },
+                  child: Text(
+                    cctvName,
+                    style: h5(),
+                  ),
                 ),
               ),
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  "/detail",
-                  arguments: DetailArguments(cctvName: cctvName),
-                );
-              },
-              child: Text(
-                cctvName,
-                style: h5(),
-              ),
-            ),
-          ),
-        )
-      ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -75,52 +133,10 @@ class FireDetectPage extends StatelessWidget {
             backgroundColor: appColor1(),
           ),
           SizedBox(height: 10),
-          _buildDrawerTextButton("HOME", context),
-          _buildDrawerTextButton("화재 정보", context),
-          _buildDrawerTextButton("실시간 스트리밍", context),
+          BuildDrawerTextButton("HOME", context),
+          BuildDrawerTextButton("화재 정보", context),
+          BuildDrawerTextButton("실시간 스트리밍", context),
         ],
-      ),
-    );
-  }
-
-  Widget _buildDrawerTextButton(String DrawerText, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: TextButton(
-        style: TextButton.styleFrom(
-          backgroundColor: backgroundColor(),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        onPressed: () {
-          switch (DrawerText) {
-            case "HOME":
-              {
-                DrawerText = "on";
-              }
-              break;
-            case "화재 정보":
-              {
-                DrawerText = "info";
-              }
-              break;
-            case "실시간 스트리밍":
-              {
-                DrawerText = "stream";
-              }
-              break;
-          }
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/${DrawerText}", (route) => false);
-        },
-        child: Container(
-          height: 50,
-          alignment: Alignment.center,
-          child: Text(
-            DrawerText,
-            style: subtitle2(mColor: appBarColor()),
-          ),
-        ),
       ),
     );
   }

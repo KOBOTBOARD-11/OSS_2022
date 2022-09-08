@@ -7,8 +7,11 @@ import 'detect_commons/detect_common_form_field.dart';
 
 class DetailArguments {
   final String cctvName;
+  final DateTime date;
+  final String count;
 
-  DetailArguments({required this.cctvName});
+  DetailArguments(
+      {required this.cctvName, required this.date, required this.count});
 }
 
 class Detail extends StatelessWidget {
@@ -45,12 +48,8 @@ class Detail extends StatelessWidget {
             ),
           ),
           DetectCommonFormField(
-            detectTimeText: ["인원 감지 시각", "00:00:10"],
-            detectCountText: ["감지 인원 수", "1명"],
-          ),
-          DetectCommonFormField(
-            detectTimeText: ["인원 감지 시각", "00:00:20"],
-            detectCountText: ["감지 인원 수", "1명"],
+            detectTimeText: ["인원 감지 시각", "${args.date}"],
+            detectCountText: ["감지 인원 수", "${args.count}명"],
           ),
         ],
       ),

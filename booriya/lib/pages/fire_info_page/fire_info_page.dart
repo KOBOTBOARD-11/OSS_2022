@@ -1,10 +1,13 @@
 import 'package:booriya/Colors.dart';
 import 'package:booriya/common/info_form_field.dart';
+import 'package:booriya/pages/fire_detect_page/fire_detect_page.dart';
 import 'package:booriya/pages/fire_info_page/components/video_play.dart';
+import 'package:booriya/pages/fire_stream_page/fire_stream_page.dart';
 import 'package:booriya/styles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../../common/fire_drawer.dart';
 import '../fire_on_page/fire_on.dart';
 
 class FireInfoPage extends StatelessWidget {
@@ -106,57 +109,10 @@ class FireInfoPage extends StatelessWidget {
             backgroundColor: appColor1(),
           ),
           SizedBox(height: 10),
-          _buildDrawerTextButton("HOME", context),
-          _buildDrawerTextButton("실시간 스트리밍", context),
-          _buildDrawerTextButton("인원 감지", context),
+          BuildDrawerTextButton("HOME", context),
+          BuildDrawerTextButton("실시간 스트리밍", context),
+          BuildDrawerTextButton("인원 감지", context),
         ],
-      ),
-    );
-  }
-
-  Widget _buildDrawerTextButton(String DrawerText, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: TextButton(
-        style: TextButton.styleFrom(
-          backgroundColor: backgroundColor(),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        onPressed: () {
-          switch (DrawerText) {
-            case "HOME":
-              {
-                DrawerText = "on";
-              }
-              break;
-            case "실시간 스트리밍":
-              {
-                DrawerText = "stream";
-              }
-              break;
-            case "인원 감지":
-              {
-                DrawerText = "detect";
-              }
-              break;
-          }
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => FireInfoPage(
-                        dataList: [url, location, roomName, date],
-                      )),
-              (route) => false);
-        },
-        child: Container(
-          height: 50,
-          alignment: Alignment.center,
-          child: Text(
-            DrawerText,
-            style: subtitle2(mColor: appBarColor()),
-          ),
-        ),
       ),
     );
   }

@@ -5,8 +5,7 @@ class FireStreamPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("화재 발생 정보")),
-      // endDrawer: _buildBooriyaDrawer(context),
+      appBar: AppBar(title: Text("실시간 스트리밍")),
       body: Container(
         alignment: Alignment.center,
         child: Column(

@@ -19,7 +19,7 @@ class Detail extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as DetailArguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text("화재 발생 정보"),
+        title: Text("인원 감지 내역"),
         leading: IconButton(
           onPressed: () {
             Navigator.pushNamedAndRemoveUntil(

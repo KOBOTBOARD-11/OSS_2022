@@ -23,7 +23,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
     //print("hi");
     return Scaffold(
       appBar: AppBar(
-        title: Text("화재 발생 정보"),
+        title: Text("인원 감지 내역"),
       ),
       // endDrawer: _buildBooriyaDrawer(context),
       body: StreamBuilder<QuerySnapshot>(

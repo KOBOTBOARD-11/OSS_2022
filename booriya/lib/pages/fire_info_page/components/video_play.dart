@@ -46,7 +46,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return
         // VideoPlayerController가 초기화를 진행하는 동안 로딩 스피너를 보여주기 위해
         // FutureBuilder를 사용합니다.
-        Column(
+        Stack(
+      alignment: Alignment.center,
       children: [
         FutureBuilder(
           future: _initializeVideoPlayerFuture,
@@ -74,24 +75,34 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             } //else
           }, //builder
         ),
-        FloatingActionButton(
-          onPressed: () {
-            // 재생/일시 중지 기능을 `setState` 호출로 감쌉니다. 이렇게 함으로써 올바른 아이콘이
-            // 보여집니다.
-            setState(() {
-              // 영상이 재생 중이라면, 일시 중지 시킵니다.
-              if (_controller.value.isPlaying) {
-                _controller.pause();
-              } else {
-                // 만약 영상이 일시 중지 상태였다면, 재생합니다.
-                _controller.play();
-              }
-            });
-          },
-          // 플레이어의 상태에 따라 올바른 아이콘을 보여줍니다.
-          child: Icon(
-            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-          ),
+        Column(
+          children: [
+            SizedBox(
+              height: 200,
+            ),
+            FloatingActionButton(
+              backgroundColor: appBarColor(),
+              onPressed: () {
+                // 재생/일시 중지 기능을 `setState` 호출로 감쌉니다. 이렇게 함으로써 올바른 아이콘이
+                // 보여집니다.
+                setState(() {
+                  // 영상이 재생 중이라면, 일시 중지 시킵니다.
+                  if (_controller.value.isPlaying) {
+                    _controller.pause();
+                    Icon(Icons.play_arrow);
+                  } else {
+                    // 만약 영상이 일시 중지 상태였다면, 재생합니다.
+                    _controller.play();
+                    Icon(Icons.pause);
+                  }
+                });
+              },
+              // 플레이어의 상태에 따라 올바른 아이콘을 보여줍니다.
+              child: Icon(
+                _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+              ),
+            ),
+          ],
         ),
       ],
     );

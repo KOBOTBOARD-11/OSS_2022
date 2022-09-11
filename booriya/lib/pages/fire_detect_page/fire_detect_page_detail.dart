@@ -22,13 +22,11 @@ class Detail extends StatelessWidget {
         title: Text("인원 감지 내역"),
         leading: IconButton(
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-                context, "/detect", (route) => false);
+            Navigator.pop(context);
           },
           icon: Icon(Icons.arrow_back),
         ),
       ),
-      endDrawer: _buildBooriyaDrawer(context),
       body: ListView(
         children: [
           Padding(
@@ -51,71 +49,6 @@ class Detail extends StatelessWidget {
             detectCountText: ["감지 인원 수", "${args.count}명"],
           ),
         ],
-      ),
-    );
-  }
-
-  Drawer _buildBooriyaDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          AppBar(
-            title: Text("MENU"),
-            backgroundColor: appColor1(),
-          ),
-          SizedBox(height: 10),
-          _buildDrawerTextButton("HOME", context),
-          _buildDrawerTextButton("실시간 스트리밍", context),
-          _buildDrawerTextButton("화재 정보", context),
-          _buildDrawerTextButton("인원 감지", context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDrawerTextButton(String DrawerText, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: TextButton(
-        style: TextButton.styleFrom(
-          backgroundColor: backgroundColor(),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        ),
-        onPressed: () {
-          switch (DrawerText) {
-            case "HOME":
-              {
-                DrawerText = "on";
-              }
-              break;
-            case "실시간 스트리밍":
-              {
-                DrawerText = "stream";
-              }
-              break;
-            case "화재 정보":
-              {
-                DrawerText = "info";
-              }
-              break;
-            case "인원 감지":
-              {
-                DrawerText = "detect";
-              }
-              break;
-          }
-          Navigator.pushNamedAndRemoveUntil(
-              context, "/${DrawerText}", (route) => false);
-        },
-        child: Container(
-          height: 50,
-          alignment: Alignment.center,
-          child: Text(
-            DrawerText,
-            style: subtitle2(mColor: appBarColor()),
-          ),
-        ),
       ),
     );
   }

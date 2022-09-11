@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:booriya/pages/fire_detect_page/fire_detect_page_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../Colors.dart';
-import '../../common/fire_drawer.dart';
 import '../../styles.dart';
 import 'detect_info_datalist.dart';
 
@@ -115,23 +112,6 @@ class _FireDetectPageState extends State<FireDetectPage> {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Drawer _buildBooriyaDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          AppBar(
-            title: Text("MENU"),
-            backgroundColor: appColor1(),
-          ),
-          SizedBox(height: 10),
-          BuildDrawerTextButton("HOME", context),
-          BuildDrawerTextButton("화재 정보", context),
-          BuildDrawerTextButton("실시간 스트리밍", context),
-        ],
       ),
     );
   }

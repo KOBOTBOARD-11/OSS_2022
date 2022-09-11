@@ -6,7 +6,7 @@ class FireFinish extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => CheckDialog(context),
+      onTap: () => CheckDialogYesOrNo(context),
       child: Container(
         width: 300,
         height: 100,

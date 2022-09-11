@@ -1,9 +1,5 @@
 import 'package:booriya/pages/fire_stream_page/stream_commons/fire_streaming_video.dart';
-import 'package:booriya/styles.dart';
 import 'package:flutter/material.dart';
-
-import '../../Colors.dart';
-import '../../common/fire_drawer.dart';
 
 class FireStreamPage extends StatelessWidget {
   @override
@@ -20,23 +16,6 @@ class FireStreamPage extends StatelessWidget {
             // VideoStream()
           ],
         ),
-      ),
-    );
-  }
-
-  Drawer _buildBooriyaDrawer(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          AppBar(
-            title: Text("MENU"),
-            backgroundColor: appColor1(),
-          ),
-          SizedBox(height: 10),
-          BuildDrawerTextButton("HOME", context),
-          BuildDrawerTextButton("화재 정보", context),
-          BuildDrawerTextButton("인원 감지", context),
-        ],
       ),
     );
   }

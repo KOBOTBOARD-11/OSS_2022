@@ -1,5 +1,6 @@
+import 'package:booriya/pages/fire_detect_page/detect_info_datalist.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import '../Colors.dart';
 import '../styles.dart';
 
@@ -63,6 +64,8 @@ CheckDialogConfirm(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
+      //detectInfo.clear();
+      //FirebaseFirestore.instance.collection('Human')
       return AlertDialog(
         // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
         shape:

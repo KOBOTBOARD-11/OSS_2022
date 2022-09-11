@@ -11,8 +11,6 @@ class FireDetectPage extends StatefulWidget {
 }
 
 class _FireDetectPageState extends State<FireDetectPage> {
-  // StreamController streamctrl = StreamController();
-
   @override
   void initState() {
     super.initState();
@@ -25,12 +23,11 @@ class _FireDetectPageState extends State<FireDetectPage> {
       appBar: AppBar(
         title: Text("인원 감지 내역"),
       ),
-      // endDrawer: _buildBooriyaDrawer(context),
       body: StreamBuilder<QuerySnapshot>(
           stream: _snapshot,
           initialData: null,
           builder: (context, snapshot) {
-            if (snapshot.data!.docs.isEmpty) {
+            if (snapshot.data?.size == 0) {
               return Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -54,9 +51,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
               if (detectInfo.isEmpty ||
                   snapshot.data?.docs.last['date'] != detectInfo.last['date']) {
                 detectInfo.add(snapshot.data?.docs.last.data());
-                print(detectInfo);
               }
-
               return Align(
                 alignment: Alignment.center,
                 child: ListView.builder(

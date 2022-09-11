@@ -64,14 +64,13 @@ CheckDialogConfirm(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      //detectInfo.clear();
-      //FirebaseFirestore.instance.collection('Human')
+      // detectInfo List 초기화
+      detectInfo.clear();
+      // firebase Human/human1/ 문서 삭제
+      FirebaseFirestore.instance.collection('Human').doc('human').delete();
       return AlertDialog(
-        // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        //Dialog Main Title
-        //
         content: Text(
           "화재 진화가\n완료되었습니다.",
           style: subtitle3(),

@@ -4,7 +4,7 @@ import asyncio
 import websockets
 import base64
 
-async def hello():
+async def streamRecv():
     async with websockets.connect("ws://localhost:6000") as websocket:
         while(True):
             raw_data = await websocket.recv()
@@ -17,4 +17,4 @@ async def hello():
         cv2.destroyAllWindows()
 
 
-asyncio.run(hello())
+asyncio.run(streamRecv())

@@ -3,18 +3,27 @@ import 'dart:typed_data';
 import 'package:booriya/Colors.dart';
 import 'package:flutter/material.dart';
 import 'websockets.dart';
+import 'camera_list.dart';
 
 class VideoStream extends StatefulWidget {
-  const VideoStream({Key? key}) : super(key: key);
+  const VideoStream({Key? key, required this.cameraNum}) : super(key: key);
+  final int cameraNum;
 
   @override
   State<VideoStream> createState() => _VideoStreamState();
 }
 
 class _VideoStreamState extends State<VideoStream> {
-  // 자신 컴퓨터 ip 찾아서 넣으십쇼!
-  final WebSocket _socket = WebSocket("ws://localhost:6000");
+  late WebSocket _socket;
+  late List<String> cameraInfo;
   bool _isConnected = false;
+
+  @override
+  void initState() {
+    cameraInfo = cameraList[widget.cameraNum];
+    _socket = WebSocket("ws://${cameraList[widget.cameraNum][1]}");
+  }
+
   void connect(BuildContext context) async {
     _socket.connect();
     setState(() {
@@ -35,15 +44,18 @@ class _VideoStreamState extends State<VideoStream> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        // color: appColor3(),
+        color: appColor3(),
+        padding: EdgeInsets.all(20),
+        margin: EdgeInsets.all(10),
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("1층 로비(CCTV 1)",
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+                Text(
+                    "${cameraList[widget.cameraNum][0]}(CCTV ${widget.cameraNum})",
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w800)),
                 _isConnected
                     ? ElevatedButton(
                         onPressed: disconnect,
@@ -90,7 +102,8 @@ class _VideoStreamState extends State<VideoStream> {
                       );
                     },
                   )
-                : const Text("1층 조리실(CCTV 1)에 연결하세요.")
+                : Text(
+                    "${cameraList[widget.cameraNum][0]}(CCTV ${widget.cameraNum})에 연결하세요.")
           ],
         ),
       ),

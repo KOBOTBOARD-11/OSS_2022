@@ -1,3 +1,4 @@
+import 'package:booriya/pages/fire_stream_page/stream_commons/camera_list.dart';
 import 'package:booriya/pages/fire_stream_page/stream_commons/fire_streaming_video.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +11,8 @@ class FireStreamPage extends StatelessWidget {
         alignment: Alignment.center,
         child: Column(
           children: [
-            // cctv1, 2
-            VideoStream(),
-            // VideoStream()
+            VideoStream(cameraNum: 1),
+            VideoStream(cameraNum: 2),
           ],
         ),
       ),

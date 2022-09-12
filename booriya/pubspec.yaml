@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   video_player: ^2.4.7
   firebase_core: ^1.21.1
+  firebase_messaging: ^13.0.1
   cloud_firestore: ^3.4.6
   web_socket_channel: ^2.2.0
   stop_watch_timer: ^1.5.0

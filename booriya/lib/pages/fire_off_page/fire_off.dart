@@ -1,6 +1,10 @@
+import 'package:booriya/confirm_and_notice/notification.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import '../../main.dart';
 
 class FireOff extends StatefulWidget {
   const FireOff({Key? key}) : super(key: key);
@@ -10,54 +14,33 @@ class FireOff extends StatefulWidget {
 }
 
 class _FireOffState extends State<FireOff> {
-  var _flutterLocalNotificationsPlugin;
-
   @override
   void initState() {
-    // TODO: implement initState
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      var androidNotiDetails = AndroidNotificationDetails(
+        channel.id,
+        channel.name,
+        channelDescription: channel.description,
+      );
+      var iOSNotiDetails = const IOSNotificationDetails();
+      var details =
+          NotificationDetails(android: androidNotiDetails, iOS: iOSNotiDetails);
+      if (notification != null) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          details,
+        );
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print(message);
+    });
     super.initState();
-    var initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettingsIOS = IOSInitializationSettings();
-
-    var initializationSettings = InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-
-    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    _flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
-
-  //알림을 눌렀을때 어떤 행동을 할지 정해주는 부분
-  Future onSelectNotification(String payload) async {
-    print("payload : $payload");
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('우왕 잘됩니다!!!!우와아아아아아아앙!!!'),
-        content: Text('Payload: $payload'),
-      ),
-    );
-  }
-
-  Future<void> _showNotification() async {
-    print("dkdkd");
-    var android = AndroidNotificationDetails(
-        'your channel id', 'your channel name',
-        channelDescription: 'your channel description',
-        importance: Importance.max,
-        priority: Priority.high);
-
-    var ios = IOSNotificationDetails();
-    var detail = NotificationDetails(android: android, iOS: ios);
-
-    await _flutterLocalNotificationsPlugin.show(
-      0,
-      '단일 Notification',
-      '단일 Notification 내용',
-      detail,
-      payload: 'Hello Flutter',
-    );
-    print('dfdf');
   }
 
   @override
@@ -69,8 +52,8 @@ class _FireOffState extends State<FireOff> {
       body: Center(
         child: InkWell(
           onTap: () {
-            _showNotification();
-            // Navigator.pushNamed(context, "/on");
+            showNotification();
+            Navigator.pushNamed(context, "/on");
           },
           child: Container(
             width: 300,

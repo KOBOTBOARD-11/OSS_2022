@@ -35,12 +35,9 @@ class Detail extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, "/stream");
               },
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(
-                  args.cctvName,
-                  style: subtitle3(),
-                ),
+              child: Text(
+                args.cctvName,
+                style: subtitle3(),
               ),
             ),
           ),

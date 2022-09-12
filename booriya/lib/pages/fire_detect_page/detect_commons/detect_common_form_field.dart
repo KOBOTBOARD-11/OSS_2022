@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../Colors.dart';
 import '../../../common/info_form_field.dart';
@@ -16,12 +17,11 @@ class DetectCommonFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: 300,
-          height: 200,
-          // 인원 감지 이미지
-          decoration: BoxDecoration(
-            color: Colors.black,
+        Center(
+          child: CachedNetworkImage(
+            imageUrl: "https://picsum.photos/250?image=9",
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
         ),
         SizedBox(height: 10),

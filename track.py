@@ -57,21 +57,22 @@ from firebase_admin import credentials
 import firebase_admin
 
 config = {
-    "apiKey": "AIzaSyBzK5MOjxppv-telPGe6YXJzdA8Ytt5LRE",
-    "authDomain": "oss-test-1e565.firebaseapp.com",
-    "projectId": "oss-test-1e565",
-    "storageBucket": "oss-test-1e565.appspot.com",
-    "messagingSenderId": "439803635150",
-    "appId": "1:439803635150:web:86adb68c64c6fec8bef79f",
-    "serviceAccount" : "/home/kobot/Yolov5_DeepSort_Pytorch/Firebase/oss-booriya-firebase-adminsdk-2u20l-5aba030f8d.json", #비밀키 추가
-    "databaseURL" : "https://oss-test-1e565-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    "apiKey": "AIzaSyCJu88U25PEboV8lLSLNdq9h7ZBxMNH8YA",
+    "authDomain": "firefire-ca4d0.firebaseapp.com",
+    "projectId": "firefire-ca4d0",
+    "storageBucket": "firefire-ca4d0.appspot.com",
+    "messagingSenderId": "1022496752424",
+    "appId": "1:1022496752424:web:a9026dcfb18155c353861d",
+    "serviceAccount" : "/home/kobot/Yolov5_DeepSort_Pytorch/Firebase/serviceKey.json", #비밀키 추가
+    "databaseURL" : "https://firefire-ca4d0-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    "measurementId": "G-E7962TBR7N"
   }
 
 firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
-Token = "oss-test-1e565.appspot.com"                #fire storage  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1!!!!!!!!
+Token = "firefire-ca4d0.appspot.com"                #fire storage  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1!!!!!!!!
 
-credpath = r"/home/kobot/Yolov5_DeepSort_Pytorch/Firebase/oss-booriya-firebase-adminsdk-2u20l-5aba030f8d.json" # -> 다운받은 serviceAcc 경로
+credpath = r"/home/kobot/Yolov5_DeepSort_Pytorch/Firebase/serviceKey.json" # -> 다운받은 serviceAcc 경로
 login = credentials.Certificate(credpath)
 firebase_admin.initialize_app(login)
 db = firestore.client()                             #fire database !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -177,7 +178,7 @@ def run(
     FIRECOUNT = 0 #화재 발생 후 부터 측정
     NUMBER = 0
     TIME = 0 
-    HUMANCOUNT = 0
+    
     z = 0
     location = '국민대 미래관 6층'
     roomName = '코봇 동아리방'
@@ -211,6 +212,7 @@ def run(
         
         # Process detections
         for i, det in enumerate(pred):  # detections per image
+            HUMANCOUNT = 0 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!HUMANCOUNT 지속적 초기화
             seen += 1
             if webcam:  # nr_sources >= 1
                 p, im0, _ = path[i], im0s[i].copy(), dataset.count
@@ -290,13 +292,13 @@ def run(
                             #     LOGGER.info("연기입니다.")
                             
                             if(c == 1) : # 화재 감지
-                                LOGGER.info("!!! === 화 재 발 생 === !!!")
+                                LOGGER.info("@@@ 화 재 발 생 @@@")
                                 FIREFLAG = True
                                 
                             #c -> 종류
                             #n -> 수/양
                             if c == 0:
-                                HUMANCOUNT = ((n.to("cpu")).numpy())
+                                HUMANCOUNT += 1
                                 print("사람수는 : " + str(HUMANCOUNT))
                                 
                             
@@ -340,34 +342,42 @@ def run(
                 print("============================================================")
                 z += 1
                 save_path = str(Path('videoBox/fire/' + 'fire_' + str(z)).with_suffix('.mp4')) #동영상 파일 저장 경로
-                VOUT = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
+                
                 image_path = str(Path('humanPic/' + 'human_' + str(z) + ".jpg")) #이미지 파일 저장 경로
                 cv2.imwrite(image_path, im0)
                 start_time = time.time()
-            
-                
                 
                 if COUNT >= 1 and FIREFLAG == False: 
-                    storage.delete("before_fire/video/" + str(NUMBER), Token + './videoBox/fire/fire_' + str(NUMBER) + '.mp4')
+                    storage.delete("before_fire/video/" + str(NUMBER), Token + './videoBox/fire/fire_' + str(1) + '.mp4')
                 # --------------------화재 발생 전
                 
-                storage.child("before_fire/video/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/videoBox/fire/fire_' + str(NUMBER+1) + '.mp4')
-                storage.child("before_fire/image/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/humanPic/human_' + str(NUMBER+1) + '.jpg')
+                # storage.child("before_fire/video/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/videoBox/fire/fire_1.mp4')
+                
+                VOUT = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
+                storage.child("before_fire/video/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/videoBox/fire/fire_' + str(1) + '.mp4')
+                
+                # if (NUMBER > 0) :
+                    # storage.delete("before_fire/video/" + str(NUMBER), Token + './videoBox/fire/fire_' + str(1) + '.mp4')
+                
+                if HUMANCOUNT >= 1 and FIREFLAG == True:
+                    storage.child("before_fire/image/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/humanPic/human_' + str(NUMBER+1) + '.jpg')
+
                 NUMBER += 1
                 COUNT += 1
                             
                 if FIREFLAG == True and FIRECOUNT == 0:
-                    print("fireflag : " + str(FIREFLAG))
                     Video = db.collection("first_fireC")
                     FIRECOUNT += 1
                     Video.document("first_fireD").set({
-                        'detected_Time' : datetime.datetime.now().strftime("['%Y년 %m월 %d일 %H시 %M분 %S초']"),
+                        'detected_Time' : (datetime.datetime.now().strftime("['%Y년 %m월 %d일 %H시 %M분 %S초']")),
                         'FireVideo' : storage.child("before_fire/video/" + str(NUMBER)).get_url(1),
                         'FireImage' : storage.child("before_fire/image/" + str(NUMBER)).get_url(1),
+                        'HumanCount' : str(HUMANCOUNT),
                         'Location' : location,
-                        'Room_name' : roomName,
-                        'HumanCount' : str(HUMANCOUNT)
-                    })
+                        'Room_name' : roomName
+                    })# first fire
+                
+                # =====================
                 
                 if FIREFLAG == True and FIRECOUNT >= 1 and TIME == 5:
                     Video = db.collection("fire situation_C")
@@ -376,52 +386,10 @@ def run(
                         'detected_Time' : datetime.datetime.now().strftime("['%Y년 %m월 %d일 %H시 %M분 %S초']"),
                         'FireVideo' : storage.child("before_fire/video/" + str(NUMBER)).get_url(1),
                         'FireImage' : storage.child("before_fire/image/" + str(NUMBER)).get_url(1),
-                        'Location' : location,
-                        'Room_name' : roomName,
                         'HumanCount' : str(HUMANCOUNT),
-                        'FIRECOUNT': FIRECOUNT
-                    })
-                
-                    
-                    
-                    
-            
-            # if NUMBER != 1 and check ==False: 
-                # 화재발생 이전이라면 데이터를 삭제
-                # storage.delete(filename, Token + filename)
-                # delete를 하기 위해서는 storage정보가 있는 Token + filename이 필요
-            
-            
-            # storage.child("before_fire").put('/home/kobot/Yolov5_DeepSort_Pytorch/videoBox/fire_7.mp4')
-            
-    # if TIME == 15: ## 15초마다 저장
-    #     TIME = 0
-    #     T = datetime.now()
-    #     T = T.strftime('%Y.%m.%d %H:%M:%S\n')
-    #     VIDEOOUT = cv2.VideoWriter('./videoBox/fire/fire_' + str(NUMBER+1)+".mp4", fourcc, 10.0, (int(Width), int(Height)))
-    #     #-- 저장을 하기전에 미리 동영상을 넘겨줘야 한다. 그렇지 않으면 동영상에 데이터가 없음
-    #     if NUMBER != 1 and check ==False: 
-    #         #-- 화재발생 이전이라면 데이터를 삭제
-    #         storage.delete(filename, Token + filename)
-    #         ## delete를 하기 위해서는 storage정보가 있는 Token + filename이 필요
-            
-    #     filename = "Fire_" + str(T) + "_(" + str(NUMBER) +").mp4" 
-    #     print("filename is ", filename)  
-    #     print("video/Fire"+str(NUMBER)+".mp4")
-    #     storage.child(filename).put("video/Fire_"+str(NUMBER)+".mp4")
-        
-    #     NUMBER +=1
-
-            # storage.child("fire").put('/home/kobot/Yolov5_DeepSort_Pytorch/videoBox/fire/fire_7.mp4')
-            # storage.download("fire","fb_fire.mp4")
-            # --------------------------------------------------------
-
-            # credpath = r"Firebase/oss-booriya-firebase-adminsdk-2u20l-5aba030f8d.json" # -> 다운받은 serviceAcc 경로
-            # login = credentials.Certificate(credpath)
-            # firebase_admin.initialize_app(login)
-            # db = firestore.client()
-            # Video = db.collection("fire")
-                
+                        'Location' : location,
+                        'Room_name' : roomName
+                    })# fire situation
 
     # Print results
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image

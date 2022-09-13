@@ -53,7 +53,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
               if (detectInfo.isEmpty ||
                   snapshot.data?.docs.last['detected_Time'] !=
                       detectInfo.last['detected_Time']) {
-                showNotification();
+                showHumanDetectNotification();
                 detectInfo.add(snapshot.data?.docs.last.data());
               }
               return Align(
@@ -62,6 +62,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
                   itemCount: detectInfo.length,
                   itemBuilder: (context, index) {
                     return _buildDetectButton(
+                      detectInfo[index]['FireImage'],
                       detectInfo[index]['Room_name'],
                       detectInfo[index]['detected_Time'],
                       detectInfo[index]['HumanCount'],
@@ -75,8 +76,8 @@ class _FireDetectPageState extends State<FireDetectPage> {
     );
   }
 
-  Widget _buildDetectButton(
-      String cctvName, String date, String count, BuildContext context) {
+  Widget _buildDetectButton(String imageUrl, String cctvName, String date,
+      String count, BuildContext context) {
     return Dismissible(
       key: Key(cctvName),
       child: Card(
@@ -99,7 +100,10 @@ class _FireDetectPageState extends State<FireDetectPage> {
                       context,
                       "/detail",
                       arguments: DetailArguments(
-                          cctvName: cctvName, date: date, count: count),
+                          imageUrl: imageUrl,
+                          cctvName: cctvName,
+                          date: date,
+                          count: count),
                     );
                   },
                   child: Text(

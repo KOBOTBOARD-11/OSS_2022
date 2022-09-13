@@ -7,9 +7,12 @@ class DetectCommonFormField extends StatelessWidget {
   // final humanImage;
   final detectTimeText;
   final detectCountText;
+  final imageUrl;
 
   const DetectCommonFormField(
-      {required this.detectTimeText, required this.detectCountText});
+      {required this.imageUrl,
+      required this.detectTimeText,
+      required this.detectCountText});
 
   // const DetectCommonFormField({required this.humanImage, required this.detectInfoText});
 
@@ -17,11 +20,15 @@ class DetectCommonFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
-          child: CachedNetworkImage(
-            imageUrl: "https://picsum.photos/250?image=9",
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Center(
+            child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: imageUrl,
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
           ),
         ),
         SizedBox(height: 10),

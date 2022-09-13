@@ -9,7 +9,7 @@ class FireInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print([url, location, roomName, date].runtimeType);
+        // print([url, location, roomName, date].runtimeType);
         Navigator.push(
           context,
           MaterialPageRoute(

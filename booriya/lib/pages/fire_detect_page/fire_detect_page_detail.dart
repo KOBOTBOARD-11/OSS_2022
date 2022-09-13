@@ -5,12 +5,16 @@ import '../../Colors.dart';
 import 'detect_commons/detect_common_form_field.dart';
 
 class DetailArguments {
+  final String imageUrl;
   final String cctvName;
   final String date;
   final String count;
 
   DetailArguments(
-      {required this.cctvName, required this.date, required this.count});
+      {required this.imageUrl,
+      required this.cctvName,
+      required this.date,
+      required this.count});
 }
 
 class Detail extends StatelessWidget {
@@ -42,6 +46,7 @@ class Detail extends StatelessWidget {
             ),
           ),
           DetectCommonFormField(
+            imageUrl: args.imageUrl,
             detectTimeText: ["인원 감지 시각", "${args.date}"],
             detectCountText: ["감지 인원 수", "${args.count}명"],
           ),

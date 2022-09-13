@@ -52,7 +52,7 @@ class _FireOffState extends State<FireOff> {
       body: Center(
         child: InkWell(
           onTap: () {
-            showNotification();
+            showFirstFireNotification();
             Navigator.pushNamed(context, "/on");
           },
           child: Container(

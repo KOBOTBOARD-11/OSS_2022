@@ -1,6 +1,7 @@
 import 'package:booriya/Colors.dart';
-import 'package:flutter/material.dart';
 import 'package:cached_video_player/cached_video_player.dart';
+import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String url;
@@ -18,11 +19,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void initState() {
-    _controller = CachedVideoPlayerController.network(
-        "https://firebasestorage.googleapis.com/v0/b/firefire-ca4d0.appspot.com/o/fire?alt=media&token=1");
+    _controller = CachedVideoPlayerController.network(url);
     _controller.initialize().then((value) {
       _controller.play();
-      _controller.setLooping(true);
+      // _controller.setLooping(true);
       setState(() {});
     });
     super.initState();

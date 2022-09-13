@@ -6,7 +6,7 @@ import 'detect_commons/detect_common_form_field.dart';
 
 class DetailArguments {
   final String cctvName;
-  final DateTime date;
+  final String date;
   final String count;
 
   DetailArguments(

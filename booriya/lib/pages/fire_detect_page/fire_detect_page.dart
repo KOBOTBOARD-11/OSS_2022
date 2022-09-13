@@ -2,6 +2,7 @@ import 'package:booriya/pages/fire_detect_page/fire_detect_page_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../Colors.dart';
+import '../../confirm_and_notice/notification.dart';
 import '../../styles.dart';
 import 'detect_info_datalist.dart';
 
@@ -17,7 +18,8 @@ class _FireDetectPageState extends State<FireDetectPage> {
   }
 
   Widget build(BuildContext context) {
-    var _snapshot = FirebaseFirestore.instance.collection('Human').snapshots();
+    var _snapshot =
+        FirebaseFirestore.instance.collection('fire situation_C').snapshots();
     //print("hi");
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +51,9 @@ class _FireDetectPageState extends State<FireDetectPage> {
               );
             } else {
               if (detectInfo.isEmpty ||
-                  snapshot.data?.docs.last['date'] != detectInfo.last['date']) {
+                  snapshot.data?.docs.last['detected_Time'] !=
+                      detectInfo.last['detected_Time']) {
+                showNotification();
                 detectInfo.add(snapshot.data?.docs.last.data());
               }
               return Align(
@@ -58,9 +62,9 @@ class _FireDetectPageState extends State<FireDetectPage> {
                   itemCount: detectInfo.length,
                   itemBuilder: (context, index) {
                     return _buildDetectButton(
-                      detectInfo[index]['cctvName'],
-                      detectInfo[index]['date']!.toDate(),
-                      detectInfo[index]['count'],
+                      detectInfo[index]['Room_name'],
+                      detectInfo[index]['detected_Time'],
+                      detectInfo[index]['HumanCount'],
                       context,
                     );
                   },
@@ -72,7 +76,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
   }
 
   Widget _buildDetectButton(
-      String cctvName, DateTime date, String count, BuildContext context) {
+      String cctvName, String date, String count, BuildContext context) {
     return Dismissible(
       key: Key(cctvName),
       child: Card(
@@ -99,7 +103,8 @@ class _FireDetectPageState extends State<FireDetectPage> {
                     );
                   },
                   child: Text(
-                    cctvName,
+                    textAlign: TextAlign.center,
+                    "${cctvName}\n${date.substring(16, 27)}",
                     style: h5(),
                   ),
                 ),

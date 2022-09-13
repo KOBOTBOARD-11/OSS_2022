@@ -28,12 +28,13 @@ class _FireOnState extends State<FireOn> {
   Future<List> _buildDb() async {
     var db = FirebaseFirestore.instance;
     var doc_ref_info =
-        await db.collection("Video").doc('FIRE2022년 09월 01일').get();
+        await db.collection("first_fireC").doc('first_fireD').get();
     url = doc_ref_info.data()?['FireVideo'];
     location = doc_ref_info.data()?['Location'];
     roomName = doc_ref_info.data()?['Room_name'];
-    date = doc_ref_info.data()?['detected_Time'].toDate();
+    date = doc_ref_info.data()?['detected_Time'];
     List<dynamic> dataList = [url, location, roomName, date];
+    print(dataList);
     return dataList;
   }
 

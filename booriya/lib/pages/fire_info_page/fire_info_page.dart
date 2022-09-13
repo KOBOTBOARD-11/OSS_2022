@@ -49,7 +49,7 @@ class FireInfoPage extends StatelessWidget {
     );
   }
 
-  Widget _buildInfo(String location, String roomName, DateTime date) {
+  Widget _buildInfo(String location, String roomName, String date) {
     return Column(
       children: [
         Text(
@@ -68,7 +68,7 @@ class FireInfoPage extends StatelessWidget {
               children: [
                 InfoFormField(
                   titleText: "1. 화재 감지 시간",
-                  infoText: "${date}",
+                  infoText: date,
                 ),
                 SizedBox(height: 10),
                 InfoFormField(

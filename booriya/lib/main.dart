@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:booriya/confirm_and_notice/notification.dart';
 import 'package:booriya/pages/fire_detect_page/fire_detect_page_detail.dart';
 import 'package:booriya/pages/fire_detect_page/fire_detect_page.dart';
@@ -23,25 +25,33 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // eh96ECXKRGS40Ol_y220do:APA91bEYvfAtqIa2RK-m2PwugCUXoW_3JVzqPIDjGmrPhMw9x2bM64mfSuHRtvcj5FRcC7e9T4FQwVqjiPQ8sf95V4s7ul7c4PRAmvhpt9b8LVKIU79Nc0tdGusbvEyIk5Nqdu712E8S
-  String? token = await FirebaseMessaging.instance.getToken();
-  // print("token : ${token ?? 'token NULL!'}");
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    var androidNotiDetails = AndroidNotificationDetails(
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+    );
+    var iOSNotiDetails = const IOSNotificationDetails();
+    var details =
+        NotificationDetails(android: androidNotiDetails, iOS: iOSNotiDetails);
+    if (notification != null) {
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        details,
+      );
+    }
+  });
   channel = const AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
     description:
         'This channel is used for important notifications.', // description
     importance: Importance.high,
-  );
-
-  var initialzationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  var initialzationSettingsIOS = IOSInitializationSettings(
-    requestSoundPermission: true,
-    requestBadgePermission: true,
-    requestAlertPermission: true,
   );
 
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -54,13 +64,6 @@ void main() async {
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-  var initializationSettings = InitializationSettings(
-      android: initialzationSettingsAndroid, iOS: initialzationSettingsIOS);
-
-  await flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-  );
-
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
@@ -69,7 +72,16 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -1,12 +1,15 @@
 import 'package:booriya/Colors.dart';
 import 'package:flutter/material.dart';
 import '../../../confirm_and_notice/confirm.dart';
+import '../../../main.dart';
 
 class FireFinish extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => CheckDialogYesOrNo(context),
+      onTap: () {
+        CheckDialogYesOrNo(context);
+      },
       child: Container(
         width: 300,
         height: 100,

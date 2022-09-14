@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../Colors.dart';
+import '../../main.dart';
 import 'components/fire_detect.dart';
 import 'components/fire_finish.dart';
 import 'components/fire_info.dart';
@@ -34,7 +35,6 @@ class _FireOnState extends State<FireOn> {
     roomName = doc_ref_info.data()?['Room_name'];
     date = doc_ref_info.data()?['detected_Time'];
     List<dynamic> dataList = [url, location, roomName, date];
-    print(dataList);
     return dataList;
   }
 
@@ -45,6 +45,7 @@ class _FireOnState extends State<FireOn> {
       body: FutureBuilder(
         future: _dataList,
         builder: (context, snapshot) {
+          //print(fire_on);
           if (snapshot.connectionState == ConnectionState.done) {
             return ListView(
               padding: EdgeInsets.symmetric(horizontal: 45),

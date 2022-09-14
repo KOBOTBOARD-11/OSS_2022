@@ -1,5 +1,4 @@
 import 'package:booriya/Colors.dart';
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -12,14 +11,14 @@ class VideoPlayerScreen extends StatefulWidget {
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  late CachedVideoPlayerController _controller;
+  late VideoPlayerController _controller;
   final String url;
 
   _VideoPlayerScreenState(this.url);
 
   @override
   void initState() {
-    _controller = CachedVideoPlayerController.network(url);
+    _controller = VideoPlayerController.network(url);
     _controller.initialize().then((value) {
       _controller.play();
       // _controller.setLooping(true);
@@ -44,7 +43,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           child: _controller.value.isInitialized
               ? AspectRatio(
                   aspectRatio: _controller.value.aspectRatio,
-                  child: CachedVideoPlayer(_controller))
+                  child: VideoPlayer(_controller))
               : const CircularProgressIndicator(),
         ), // This trailing comma makes auto-formatting nicer for build methods.
         Column(

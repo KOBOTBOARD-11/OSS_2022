@@ -1,5 +1,3 @@
-import 'package:booriya/confirm_and_notice/notification.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -7,8 +5,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../../main.dart';
 
 class FireOff extends StatefulWidget {
-  const FireOff({Key? key}) : super(key: key);
-
   @override
   State<FireOff> createState() => _FireOffState();
 }
@@ -16,31 +12,26 @@ class FireOff extends StatefulWidget {
 class _FireOffState extends State<FireOff> {
   @override
   void initState() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      var androidNotiDetails = AndroidNotificationDetails(
-        channel.id,
-        channel.name,
-        channelDescription: channel.description,
-      );
-      var iOSNotiDetails = const IOSNotificationDetails();
-      var details =
-          NotificationDetails(android: androidNotiDetails, iOS: iOSNotiDetails);
-      if (notification != null) {
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          details,
-        );
-      }
-    });
+    var initialzationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print(message);
-    });
+    var initialzationSettingsIOS = IOSInitializationSettings(
+      requestSoundPermission: true,
+      requestBadgePermission: true,
+      requestAlertPermission: true,
+    );
+    var initializationSettings = InitializationSettings(
+        android: initialzationSettingsAndroid, iOS: initialzationSettingsIOS);
+
+    flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: selectionNotification,
+    );
     super.initState();
+  }
+
+  Future<dynamic> selectionNotification(payload) async {
+    Navigator.pushNamed(context, "/on");
   }
 
   @override
@@ -52,7 +43,6 @@ class _FireOffState extends State<FireOff> {
       body: Center(
         child: InkWell(
           onTap: () {
-            showFirstFireNotification();
             Navigator.pushNamed(context, "/on");
           },
           child: Container(

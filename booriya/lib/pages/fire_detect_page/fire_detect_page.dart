@@ -53,7 +53,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
               if (detectInfo.isEmpty ||
                   snapshot.data?.docs.last['detected_Time'] !=
                       detectInfo.last['detected_Time']) {
-                showHumanDetectNotification();
+                //showHumanDetectNotification();
                 detectInfo.add(snapshot.data?.docs.last.data());
               }
               return Align(
@@ -108,7 +108,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
                   },
                   child: Text(
                     textAlign: TextAlign.center,
-                    "${cctvName}\n${date.substring(16, 27)}",
+                    "${cctvName}\n${date.substring(4, 27)}",
                     style: h5(),
                   ),
                 ),

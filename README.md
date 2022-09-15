@@ -53,7 +53,7 @@
 4. 👩🏻‍💻 이세희
 - Role : 서버관리, Backend
 - Github: https://github.com/Sehee-Lee-01
-- Email :
+- Email : tpfktpgml24@kookmin.ac.kr
 
 ## 🔎사용 환경 설정 및 시작하기
 [🛠 Application](https://github.com/KOBOTBOARD-11/OSS_2022/tree/app_dev) 

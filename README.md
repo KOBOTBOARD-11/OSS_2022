@@ -27,3 +27,6 @@
 │   
 ...
 ```
+## 실험한 Emulator 사양
+ - Pixel_3a_API_33_arm64-v8a
+ - Pixel 2 API 30

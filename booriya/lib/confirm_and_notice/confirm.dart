@@ -67,8 +67,6 @@ CheckDialogConfirm(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       detectInfo.clear(); // detectInfo List 초기화
-      FirebaseFirestore.instance.collection('Human').doc('human').delete();
-      // firebase Human/human1/ 문서 삭제
       return AlertDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),

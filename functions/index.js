@@ -3,38 +3,6 @@ const admin = require("firebase-admin");
 
 admin.initializeApp(functions.config().firebase);
 
-exports.sendTestNotifications = functions
-  .region('asia-northeast3')
-  .firestore
-  .document('messages/{messageId}')
-  .onCreate(
-  async (snapshot, context) => {
-    // Notification details.
-    const text = snapshot.data().text;
-    const payload = {
-      notification: {
-        title: `${snapshot.data().name} posted ${text ? 'a message' : 'an image'}`,
-        body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : '',
-      }
-    };
-
-    // Get the list of device tokens.
-    const allTokens = await admin.firestore().collection('device_token').get();
-    const tokens = [];
-    allTokens.forEach((tokenDoc) => {
-      tokens.push(tokenDoc.id);
-    });
-
-    try {
-      if (tokens.length > 0) {
-        // Send notifications to all tokens.
-        const response = await admin.messaging().sendToDevice(tokens, payload);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
 exports.sendFireNotifications = functions
   .region('asia-northeast3')
   .firestore

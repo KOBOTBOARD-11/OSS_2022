@@ -25,7 +25,19 @@
 및 재산 손실을 줄이고, 최종적으로 소방관들의 임무 수행 시 위험성을 낮추는 것이 개발
 
 ## 🎥프로젝트 시연 동영상
-<iframe width="640" height="360" src="https://www.youtube.com/embed/6Az2cNU7gUw" frameborder="0" gesture="media" allowfullscreen=""></iframe>
+
+ <div align="center">
+ 
+[![Video Label](http://img.youtube.com/vi/hasLYYplS_g/0.jpg)](https://www.youtube.com/watch?v=hasLYYplS_g)
+
+</div>
+
+## 👩‍🚒팀 소개 및 역할
+
+1. 🧑🏻‍💻 최보석
+- Role : ㅌ
 
 
-[![Video Label](http://img.youtube.com/vi/59USvjy2toI/0.jpg)](https://www.youtube.com/watch?v=hasLYYplS_g&t=142s)
+
+
+

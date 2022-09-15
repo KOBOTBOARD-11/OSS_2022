@@ -35,9 +35,16 @@
 ## 👩‍🚒팀 소개 및 역할
 
 1. 🧑🏻‍💻 최보석
-- Role : ㅌ
+- Role : 팀장,프로젝트 관리, FrontEnd
+- Github: https://github.com/YEONOC
 
+2. 👨🏾‍💻 박준용
+- Role : FrontEnd,Backend
+- Github: https://github.com/junyong1111
 
+3. 👩🏻‍💻 ㅇ
+- Github: https://github.com/junyong1111
+- Github: https://github.com/junyong1111
 
 
 

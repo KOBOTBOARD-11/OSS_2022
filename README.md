@@ -58,6 +58,10 @@
 ## 🔎사용 환경 설정 및 시작하기
 [🛠 Application](https://github.com/KOBOTBOARD-11/OSS_2022/tree/app_dev) 
 
+⎿_[🛠 Booriya](https://github.com/KOBOTBOARD-11/OSS_2022/tree/app_dev/booriya
+)  
+
+
 [🛠 Data Modeling](https://github.com/KOBOTBOARD-11/OSS_2022/tree/AI_dev)
 
 

@@ -13,6 +13,7 @@ var location;
 var roomName;
 var date;
 
+// 불이 발생했을 때의 화면을 구성한다.
 class FireOn extends StatefulWidget {
   @override
   State<FireOn> createState() => _FireOnState();
@@ -26,6 +27,7 @@ class _FireOnState extends State<FireOn> {
     super.initState();
   }
 
+  // firebase로 부터 최초 화재 발생 상황을 받아온다.
   Future<List> _buildDb() async {
     var db = FirebaseFirestore.instance;
     var doc_ref_info =

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../Colors.dart';
 import '../../../common/info_form_field.dart';
 
+// FireDetectPageDetail 페이지에서 snapshot을 통해 가져온 데이터들을 보여준다.
 class DetectCommonFormField extends StatelessWidget {
-  // final humanImage;
   final detectTimeText;
   final detectCountText;
   final imageUrl;
@@ -14,8 +14,6 @@ class DetectCommonFormField extends StatelessWidget {
       required this.detectTimeText,
       required this.detectCountText});
 
-  // const DetectCommonFormField({required this.humanImage, required this.detectInfoText});
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -23,7 +21,9 @@ class DetectCommonFormField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Center(
+            // 탐지된 순간의 이미지를 보여준다.
             child: CachedNetworkImage(
+              // cachedNetworkImage를 통해 한번 로딩되면 다음 접속할때는 바로 뜨게 한다.
               fit: BoxFit.cover,
               imageUrl: imageUrl,
               placeholder: (context, url) => CircularProgressIndicator(),

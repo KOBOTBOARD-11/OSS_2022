@@ -1,7 +1,5 @@
 import 'package:booriya/styles.dart';
 import 'package:flutter/material.dart';
-
-import '../../Colors.dart';
 import 'detect_commons/detect_common_form_field.dart';
 
 class DetailArguments {
@@ -37,6 +35,7 @@ class Detail extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: TextButton(
               onPressed: () {
+                // 해당 cctv이름의 버튼을 클릭하면 현재 cctv 스트리밍 페이지로도 넘어갈 수 있다.
                 Navigator.pushNamed(context, "/stream");
               },
               child: Text(

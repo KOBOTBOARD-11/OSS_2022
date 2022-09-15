@@ -25,6 +25,7 @@ CheckDialogYesOrNo(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               new FlatButton(
+                // 버튼 클릭시 CheckDialogConfirm로 가서 확인 Dialog를 보여준다.
                 color: buttonColor1(),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -39,6 +40,7 @@ CheckDialogYesOrNo(BuildContext context) {
                 },
               ),
               new FlatButton(
+                // 버튼 클릭시 다시 Fire_On 페이지로 돌아간다.
                 color: appBarColor(),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -64,10 +66,9 @@ CheckDialogConfirm(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      // detectInfo List 초기화
-      detectInfo.clear();
-      // firebase Human/human1/ 문서 삭제
+      detectInfo.clear(); // detectInfo List 초기화
       FirebaseFirestore.instance.collection('Human').doc('human').delete();
+      // firebase Human/human1/ 문서 삭제
       return AlertDialog(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),

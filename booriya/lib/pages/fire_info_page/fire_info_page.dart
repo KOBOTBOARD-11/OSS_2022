@@ -36,6 +36,7 @@ class FireInfoPage extends StatelessWidget {
     );
   }
 
+  // video 화면을 구성한다.
   Widget _buildVideo(String url) {
     return Column(
       children: [
@@ -49,6 +50,7 @@ class FireInfoPage extends StatelessWidget {
     );
   }
 
+  // 화재 발생 상세 정보를 구성한다.
   Widget _buildInfo(String location, String roomName, String date) {
     return Column(
       children: [

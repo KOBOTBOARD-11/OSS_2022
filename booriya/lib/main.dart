@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:booriya/confirm_and_notice/notification.dart';
 import 'package:booriya/pages/fire_detect_page/fire_detect_page_detail.dart';
 import 'package:booriya/pages/fire_detect_page/fire_detect_page.dart';
 import 'package:booriya/pages/fire_info_page/fire_info_page.dart';

@@ -2,7 +2,7 @@
 ---
 * 터미널에서 아래의 명령어들을 실행
 ```python
-git clone --recurse-submodules https://github.com/mikel-brostrom/Yolov5_DeepSort_Pytorch.git
+git clone -b AI_dev --single-branch https://github.com/KOBOTBOARD-11/OSS_2022.git
 ```
 ```python
 cd Yolov5_DeepSort_Pytorch

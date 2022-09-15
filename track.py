@@ -63,24 +63,24 @@ config = {
     "storageBucket": "firefire-ca4d0.appspot.com",
     "messagingSenderId": "1022496752424",
     "appId": "1:1022496752424:web:a9026dcfb18155c353861d",
-    "serviceAccount" : "/home/kobot/Yolov5_DeepSort_Pytorch/Firebase/serviceKey.json", #비밀키 추가
+    "serviceAccount" : "/home/kobot/Yolov5_DeepSort_Pytorch/Firebase/serviceKey.json",
     "databaseURL" : "https://firefire-ca4d0-default-rtdb.asia-southeast1.firebasedatabase.app/",
     "measurementId": "G-E7962TBR7N"
   }
 
 firebase = pyrebase.initialize_app(config)
 storage = firebase.storage()
-Token = "firefire-ca4d0.appspot.com"                #fire storage  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1!!!!!!!!
+Token = "firefire-ca4d0.appspot.com" # fire storage
 
-credpath = r"/home/kobot/Yolov5_DeepSort_Pytorch/Firebase/serviceKey.json" # -> 다운받은 serviceAcc 경로
+credpath = r"/home/kobot/Yolov5_DeepSort_Pytorch/Firebase/serviceKey.json" # serviceKey Path
 login = credentials.Certificate(credpath)
 firebase_admin.initialize_app(login)
-db = firestore.client()                             #fire database !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+db = firestore.client()
 
 @torch.no_grad()
 def run(
-        source='0',#!!!!!!!!!!!!!!!!!!!!!!! 서버 주소로 교체 예정
-        yolo_weights=WEIGHTS / '/home/kobot/yolov5/runs/train/exp2/weights/best.pt',  # model.pt path(s),!!!!!!!!!!!!!!!!!
+        source='http://203.246.113.210:12345/', # server
+        yolo_weights=WEIGHTS / '/home/kobot/Yolov5_DeepSort_Pytorch/weights/best.pt', # model.pt path(s)
         strong_sort_weights=WEIGHTS / 'osnet_x0_25_msmt17.pt',  # model.pt path,
         config_strongsort=ROOT / 'strong_sort/configs/strong_sort.yaml',
         imgsz=(640, 640),  # inference size (height, width)
@@ -172,10 +172,10 @@ def run(
     outputs = [None] * nr_sources
 
     # Run tracking
-    FLAG = False #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    FLAG = False
     FIREFLAG = False
-    COUNT = 0 #처음부터 측정
-    FIRECOUNT = 0 #화재 발생 후 부터 측정
+    COUNT = 0 # 처음부터 측정
+    FIRECOUNT = 0 # 화재 발생 이후부터 측정
     NUMBER = 0
     TIME = 0 
     
@@ -212,12 +212,11 @@ def run(
         
         # Process detections
         for i, det in enumerate(pred):  # detections per image
-            HUMANCOUNT = 0 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!HUMANCOUNT 지속적 초기화
+            HUMANCOUNT = 0 # HUMANCOUNT 초기화
             seen += 1
             if webcam:  # nr_sources >= 1
                 p, im0, _ = path[i], im0s[i].copy(), dataset.count
                 p = Path(p)  # to Path
-                # s += f'{i}: ' # number part !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 txt_file_name = p.name
                 save_path = str(save_dir / p.name)  # im.jpg, vid.mp4, ...
             else:
@@ -234,7 +233,6 @@ def run(
             curr_frames[i] = im0
 
             txt_path = str(save_dir / 'tracks' / txt_file_name)  # im.txt
-            # s += '%gx%g ' % im.shape[2:]  # print string # image size part !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             imc = im0.copy() if save_crop else im0  # for save_crop
 
             annotator = Annotator(im0, line_width=2, pil=not ascii)
@@ -247,8 +245,8 @@ def run(
 
                 # Print results
                 for c in det[:, -1].unique():
-                    n = (det[:, -1] == c).sum()  # detections per class !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    s += f"{n} {names[int(c)]}{'s' * (n > 1)} "  # add to string # delete (,) !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    n = (det[:, -1] == c).sum()  # Detections per class
+                    s += f"{n} {names[int(c)]}{'s' * (n > 1)} "  # Add to string
                     num = n
 
                 xywhs = xyxy2xywh(det[:, 0:4])
@@ -283,24 +281,14 @@ def run(
                         if save_vid or save_crop or show_vid:  # Add bbox to image
                             c = int(cls)  # integer class
                             id = int(id)  # integer id
-                            
-                            # if(c == 0) :
-                            #     LOGGER.info("사람입니다.")
-                            # elif(c == 1) :
-                            #     LOGGER.info("불입니다.")
-                            # elif(c == 2) :
-                            #     LOGGER.info("연기입니다.")
-                            
-                            if(c == 1) : # 화재 감지
+
+                            if(c == 1) : # 화재가 감지된 경우
                                 LOGGER.info("@@@ 화 재 발 생 @@@")
                                 FIREFLAG = True
                                 
-                            #c -> 종류
-                            #n -> 수/양
-                            if c == 0:
+                            if c == 0 : # 사람이 감지된 경우
                                 HUMANCOUNT += 1
-                                print("사람수는 : " + str(HUMANCOUNT))
-                                
+                                print("사람수는 : " + str(HUMANCOUNT))    
                             
                             label = None if hide_labels else (f'{id} {names[c]}' if hide_conf else 
                                 (f'{id} {conf:.2f}' if hide_class else f'{id} {names[c]} {conf:.2f}'))
@@ -309,16 +297,10 @@ def run(
                                 txt_file_name = txt_file_name if (isinstance(path, list) and len(path) > 1) else ''
                                 save_one_box(bboxes, imc, file=save_dir / 'crops' / txt_file_name / names[c] / f'{id}' / f'{p.stem}.jpg', BGR=True)
 
-                # n = n.to("cpu")
-                # LOGGER.info(str(n.numpy())) # 인원수
-                # current_Time = datetime.datetime.now()    
-                # LOGGER.info(current_Time.strftime('%Y년 %m월%d일 %H시%M분%S초\n'))
-
             else:
                 current_Time = datetime.datetime.now()
                 strongsort_list[i].increment_ages()
                 LOGGER.info('@@@ NO DETECTIONS @@@\n')
-                # LOGGER.info(current_Time.strftime('%Y년 %m월%d일 %H시%M분%S초')) OPTIONAL
 
             # Stream results
             end_time = time.time()
@@ -333,11 +315,11 @@ def run(
                 cv2.imshow(str(p), im0)
                 cv2.waitKey(1)  # 1 millisecond
             VOUT.write(im0)
-            prev_frames[i] = curr_frames[i] # 이 코드없으면 강제 종료
+            prev_frames[i] = curr_frames[i]
             
             
             print(" COUNT TIME :" + str(TIME))
-            if TIME == 5:
+            if TIME == 10:
                 
                 print("============================================================")
                 z += 1
@@ -349,16 +331,11 @@ def run(
                 
                 if COUNT >= 1 and FIREFLAG == False: 
                     storage.delete("before_fire/video/" + str(NUMBER), Token + './videoBox/fire/fire_' + str(1) + '.mp4')
-                # --------------------화재 발생 전
-                
-                # storage.child("before_fire/video/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/videoBox/fire/fire_1.mp4')
-                
+                # 화재 발생 전
+        
                 VOUT = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                 storage.child("before_fire/video/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/videoBox/fire/fire_' + str(1) + '.mp4')
-                
-                # if (NUMBER > 0) :
-                    # storage.delete("before_fire/video/" + str(NUMBER), Token + './videoBox/fire/fire_' + str(1) + '.mp4')
-                
+               
                 if HUMANCOUNT >= 1 and FIREFLAG == True:
                     storage.child("before_fire/image/" + str(NUMBER+1)).put('/home/kobot/Yolov5_DeepSort_Pytorch/humanPic/human_' + str(NUMBER+1) + '.jpg')
 
@@ -375,11 +352,9 @@ def run(
                         'HumanCount' : str(HUMANCOUNT),
                         'Location' : location,
                         'Room_name' : roomName
-                    })# first fire
+                    })# 초기화재
                 
-                # =====================
-                
-                if FIREFLAG == True and FIRECOUNT >= 1 and TIME == 5:
+                if FIREFLAG == True and FIRECOUNT >= 1 and TIME == 10 and HUMANCOUNT >= 1 :
                     Video = db.collection("fire situation_C")
                     FIRECOUNT += 1
                     Video.document("fire situation_D").set({
@@ -389,7 +364,7 @@ def run(
                         'HumanCount' : str(HUMANCOUNT),
                         'Location' : location,
                         'Room_name' : roomName
-                    })# fire situation
+                    })# 화재상황
 
     # Print results
     t = tuple(x / seen * 1E3 for x in dt)  # speeds per image
@@ -403,10 +378,10 @@ def run(
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--yolo-weights', nargs='+', type=Path, default=WEIGHTS / '/home/kobot/yolov5/runs/train/exp2/weights/best.pt', help='model.pt path(s)')
+    parser.add_argument('--yolo-weights', nargs='+', type=Path, default=WEIGHTS / '/home/kobot/Yolov5_DeepSort_Pytorch/weights/best.pt', help='model.pt path(s)')
     parser.add_argument('--strong-sort-weights', type=Path, default=WEIGHTS / 'osnet_x0_25_msmt17.pt')
     parser.add_argument('--config-strongsort', type=str, default='strong_sort/configs/strong_sort.yaml')
-    parser.add_argument('--source', type=str, default='0', help='file/dir/URL/glob, 0 for webcam')  
+    parser.add_argument('--source', type=str, default='http://203.246.113.210:12345/', help='file/dir/URL/glob, 0 for webcam')  
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.5, help='confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.5, help='NMS IoU threshold')

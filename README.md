@@ -47,7 +47,7 @@
 3. 🧑🏽‍💻 변준형
 - Role : 컴퓨터 비전, 인공지능
 - Github: https://github.com/Byeooon
-- Email : 
+- Email : junhyeong0519@kookmin.ac.kr
 
 
 4. 👩🏻‍💻 이세희

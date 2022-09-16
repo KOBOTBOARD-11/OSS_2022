@@ -62,7 +62,7 @@
 )  
 
 
-[🛠 Data Modeling](https://github.com/KOBOTBOARD-11/OSS_2022/tree/AI_dev) 
+[🛠 Data Science](https://github.com/KOBOTBOARD-11/OSS_2022/tree/AI_dev) 
 
 [🛠 Functions](https://github.com/KOBOTBOARD-11/OSS_2022/tree/functions_dev) 
 

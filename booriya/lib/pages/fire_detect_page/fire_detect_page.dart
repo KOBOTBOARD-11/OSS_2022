@@ -1,11 +1,13 @@
-import 'package:booriya/pages/fire_detect_page/fire_detect_page_detail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../../Colors.dart';
-import '../../styles.dart';
+import '../../../Colors.dart';
+import '../../../styles.dart';
 import 'detect_info_datalist.dart';
+import 'fire_detect_page_detail.dart';
 
 class FireDetectPage extends StatefulWidget {
+  const FireDetectPage({Key? key}) : super(key: key);
+
   @override
   State<FireDetectPage> createState() => _FireDetectPageState();
 }
@@ -13,19 +15,19 @@ class FireDetectPage extends StatefulWidget {
 class _FireDetectPageState extends State<FireDetectPage> {
   @override
   Widget build(BuildContext context) {
-    var _snapshot =
+    var snapshot =
         FirebaseFirestore.instance.collection('fire situation_C').snapshots();
     // firebase에 있는 fire situation_C 컬렉션에 담긴 내용이 변화할때마다 해당 변화 snapshot을 가져온다.
     return Scaffold(
       appBar: AppBar(
-        title: Text("인원 감지 내역"),
+        title: const Text("인원 감지 내역"),
       ),
       body: StreamBuilder<QuerySnapshot>(
-          stream: _snapshot,
+          stream: snapshot,
           builder: (context, snapshot) {
             if (snapshot.data?.size == 0) {
               // snapshot 데이터가 비어있으면
-              return Container(
+              return SizedBox(
                 // 즉, 컬렉션에 아무것도 없으면 No Data를 출력한다.
                 width: double.infinity,
                 height: double.infinity,
@@ -110,7 +112,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
                   },
                   child: Text(
                     textAlign: TextAlign.center,
-                    "${cctvName}\n${date.substring(4, 27)}",
+                    "$cctvName\n${date.substring(4, 27)}",
                     style: h5(),
                   ),
                 ),

@@ -1,7 +1,6 @@
-import 'package:booriya/pages/fire_detect_page/detect_info_datalist.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../Colors.dart';
+import '../pages/fire_detect_page/detect_info_datalist.dart';
 import '../styles.dart';
 
 // 화재 진화 완료 여부(예 또는 아니오)를 묻는 다이얼로그
@@ -24,13 +23,13 @@ CheckDialogYesOrNo(BuildContext context) {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              new FlatButton(
+              FlatButton(
                 // 버튼 클릭시 CheckDialogConfirm로 가서 확인 Dialog를 보여준다.
                 color: buttonColor1(),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: new Text(
+                child: Text(
                   "예",
                   style: subtitle3(mColor: Colors.white),
                 ),
@@ -39,13 +38,13 @@ CheckDialogYesOrNo(BuildContext context) {
                   CheckDialogConfirm(context);
                 },
               ),
-              new FlatButton(
+              FlatButton(
                 // 버튼 클릭시 다시 Fire_On 페이지로 돌아간다.
                 color: appBarColor(),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: new Text(
+                child: Text(
                   "아니요",
                   style: subtitle3(mColor: Colors.white),
                 ),
@@ -79,12 +78,12 @@ CheckDialogConfirm(BuildContext context) {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              new FlatButton(
+              FlatButton(
                 color: buttonColor1(),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: new Text(
+                child: Text(
                   "확인",
                   style: subtitle3(mColor: Colors.white),
                 ),

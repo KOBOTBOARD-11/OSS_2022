@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import '../../Colors.dart';
-import '../../main.dart';
+import '../../../Colors.dart';
 import 'components/fire_detect.dart';
 import 'components/fire_finish.dart';
 import 'components/fire_info.dart';
@@ -15,6 +14,8 @@ var date;
 
 // 불이 발생했을 때의 화면을 구성한다.
 class FireOn extends StatefulWidget {
+  const FireOn({Key? key}) : super(key: key);
+
   @override
   State<FireOn> createState() => _FireOnState();
 }
@@ -22,6 +23,7 @@ class FireOn extends StatefulWidget {
 class _FireOnState extends State<FireOn> {
   late Future<List> _dataList;
 
+  @override
   void initState() {
     _dataList = _buildDb();
     super.initState();
@@ -50,25 +52,25 @@ class _FireOnState extends State<FireOn> {
           //print(fire_on);
           if (snapshot.connectionState == ConnectionState.done) {
             return ListView(
-              padding: EdgeInsets.symmetric(horizontal: 45),
+              padding: const EdgeInsets.symmetric(horizontal: 45),
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TimerPage(), // 화재 지속시간
-                SizedBox(height: 20),
-                FireStreaming(), // 실시간 스트리밍
-                SizedBox(height: 40),
+                const SizedBox(height: 20),
+                const FireStreaming(), // 실시간 스트리밍
+                const SizedBox(height: 40),
                 Row(
                   // 화재 정보와 인원 감지
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     FireInfo(),
                     SizedBox(width: 20),
                     FireDetect(),
                   ],
                 ),
-                SizedBox(height: 40),
-                FireFinish(), // 화재 진화 완료
+                const SizedBox(height: 40),
+                const FireFinish(), // 화재 진화 완료
               ],
             );
           } else {
@@ -88,7 +90,7 @@ class _FireOnState extends State<FireOn> {
 
   AppBar _buildBooriyaAppBar() {
     return AppBar(
-      title: Text("Booriya"),
+      title: const Text("Booriya"),
       automaticallyImplyLeading: false, // 뒤로가기 버튼 삭제
     );
   }

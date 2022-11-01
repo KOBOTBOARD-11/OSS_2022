@@ -1,5 +1,5 @@
-import 'package:booriya/pages/fire_detect_page/fire_detect_page_detail.dart';
 import 'package:booriya/pages/fire_detect_page/fire_detect_page.dart';
+import 'package:booriya/pages/fire_detect_page/fire_detect_page_detail.dart';
 import 'package:booriya/pages/fire_info_page/fire_info_page.dart';
 import 'package:booriya/pages/fire_off_page/fire_off.dart';
 import 'package:booriya/pages/fire_on_page/fire_on.dart';
@@ -7,6 +7,7 @@ import 'package:booriya/pages/fire_stream_page/fire_stream_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'firebase_options.dart';
 
@@ -66,21 +67,27 @@ void main() async {
     badge: true,
     sound: true,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
   void initState() {
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MaterialApp(
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
@@ -89,13 +96,13 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/off",
+      initialRoute: "/on",
       routes: {
-        "/on": (context) => FireOn(),
-        "/off": (context) => FireOff(),
-        "/info": (context) => FireInfoPage(),
-        "/detect": (context) => FireDetectPage(),
-        "/detail": (context) => Detail(),
+        "/on": (context) => const FireOn(),
+        "/off": (context) => const FireOff(),
+        "/info": (context) => const FireInfoPage(),
+        "/detect": (context) => const FireDetectPage(),
+        "/detail": (context) => const Detail(),
         "/stream": (context) => FireStreamPage(),
       },
     );

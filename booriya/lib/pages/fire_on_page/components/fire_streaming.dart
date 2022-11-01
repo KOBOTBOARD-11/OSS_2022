@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FireStreaming extends StatelessWidget {
+  const FireStreaming({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -13,9 +15,13 @@ class FireStreaming extends StatelessWidget {
         width: 300,
         height: 180,
         alignment: Alignment.center,
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: appBarColor(),
+        ),
         child: Column(
-          children: [
+          children: const [
             Icon(
               CupertinoIcons.clock,
               size: 100,
@@ -31,10 +37,6 @@ class FireStreaming extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ],
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: appColor1(),
         ),
       ),
     );

@@ -35,17 +35,29 @@ class _TimerPageState extends State<TimerPage> {
         builder: (context, snap) {
           final value = snap.data!;
           final displayTime = StopWatchTimer.getDisplayTime(value);
-          return SizedBox(
-            height: 30,
-            child: Text(
-              displayTime,
-              style: TextStyle(
-                color: Colors.deepOrangeAccent,
-                fontSize: 30,
-                fontFamily: 'Helvetica',
-                fontWeight: FontWeight.bold,
+          return Column(
+            children: [
+              const Text(
+                "화재 지속 시간",
+                style: TextStyle(
+                  color: Colors.deepOrangeAccent,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+              SizedBox(
+                height: 30,
+                child: Text(
+                  displayTime,
+                  style: const TextStyle(
+                    color: Colors.deepOrangeAccent,
+                    fontSize: 30,
+                    fontFamily: 'Helvetica',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),

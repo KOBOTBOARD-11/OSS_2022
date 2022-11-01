@@ -45,8 +45,8 @@ class _VideoStreamState extends State<VideoStream> {
     return Center(
       child: Container(
         color: appColor3(),
-        padding: EdgeInsets.all(20),
-        margin: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.all(10),
         child: Column(
           children: [
             Row(

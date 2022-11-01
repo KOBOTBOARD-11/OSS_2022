@@ -49,7 +49,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         ),
         Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 200,
             ),
             FloatingActionButton(
@@ -59,11 +59,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   // 영상이 재생 중이라면, 일시 중지 시킨다.
                   if (_controller.value.isPlaying) {
                     _controller.pause();
-                    Icon(Icons.play_arrow);
+                    const Icon(Icons.play_arrow);
                   } else {
                     // 만약 영상이 일시 중지 상태였다면, 재생시킨다.
                     _controller.play();
-                    Icon(Icons.pause);
+                    const Icon(Icons.pause);
                   }
                 });
               },

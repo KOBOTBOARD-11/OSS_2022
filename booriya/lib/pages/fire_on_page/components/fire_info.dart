@@ -1,10 +1,12 @@
 import 'package:booriya/Colors.dart';
-import 'package:booriya/pages/fire_info_page/fire_info_page.dart';
-import 'package:booriya/pages/fire_on_page/fire_on.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../fire_info_page/fire_info_page.dart';
+import '../fire_on.dart';
 
 class FireInfo extends StatelessWidget {
+  const FireInfo({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -23,8 +25,12 @@ class FireInfo extends StatelessWidget {
         width: 140,
         height: 140,
         alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: appColor1(),
+        ),
         child: Column(
-          children: [
+          children: const [
             SizedBox(height: 15),
             Icon(
               CupertinoIcons.doc,
@@ -41,10 +47,6 @@ class FireInfo extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ],
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: appColor2(),
         ),
       ),
     );

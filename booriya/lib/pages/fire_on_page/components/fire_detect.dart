@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FireDetect extends StatelessWidget {
+  const FireDetect({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -13,8 +15,12 @@ class FireDetect extends StatelessWidget {
         width: 140,
         height: 140,
         alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: appColor1(),
+        ),
         child: Column(
-          children: [
+          children: const [
             SizedBox(height: 15),
             Icon(
               CupertinoIcons.profile_circled,
@@ -31,10 +37,6 @@ class FireDetect extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ],
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: appColor2(),
         ),
       ),
     );

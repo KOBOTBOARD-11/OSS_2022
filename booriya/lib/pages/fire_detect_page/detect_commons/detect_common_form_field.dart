@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../../../Colors.dart';
-import '../../../common/info_form_field.dart';
+import '../../../../Colors.dart';
+import '../../../../common/info_form_field.dart';
 
 // FireDetectPageDetail 페이지에서 snapshot을 통해 가져온 데이터들을 보여준다.
 class DetectCommonFormField extends StatelessWidget {
@@ -26,12 +26,12 @@ class DetectCommonFormField extends StatelessWidget {
               // cachedNetworkImage를 통해 한번 로딩되면 다음 접속할때는 바로 뜨게 한다.
               fit: BoxFit.cover,
               imageUrl: imageUrl,
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Container(
           width: 300,
           decoration: BoxDecoration(
@@ -51,7 +51,7 @@ class DetectCommonFormField extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 40),
+        const SizedBox(height: 40),
       ],
     );
   }

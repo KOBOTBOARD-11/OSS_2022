@@ -16,17 +16,19 @@ class DetailArguments {
 }
 
 class Detail extends StatelessWidget {
+  const Detail({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as DetailArguments;
     return Scaffold(
       appBar: AppBar(
-        title: Text("인원 감지 내역"),
+        title: const Text("인원 감지 내역"),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
         ),
       ),
       body: ListView(
@@ -46,7 +48,7 @@ class Detail extends StatelessWidget {
           ),
           DetectCommonFormField(
             imageUrl: args.imageUrl,
-            detectTimeText: ["인원 감지 시각", "${args.date}"],
+            detectTimeText: ["인원 감지 시각", (args.date)],
             detectCountText: ["감지 인원 수", "${args.count}명"],
           ),
         ],

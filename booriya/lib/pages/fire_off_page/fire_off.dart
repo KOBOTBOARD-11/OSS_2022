@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -6,6 +5,8 @@ import '../../main.dart';
 
 // 불이 발생하지 않은 평상시의 화면을 구성한다.
 class FireOff extends StatefulWidget {
+  const FireOff({Key? key}) : super(key: key);
+
   @override
   State<FireOff> createState() => _FireOffState();
 }
@@ -15,9 +16,9 @@ class _FireOffState extends State<FireOff> {
   void initState() {
     //notificatoin 설정
     var initialzationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    var initialzationSettingsIOS = IOSInitializationSettings(
+    var initialzationSettingsIOS = const IOSInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
@@ -32,25 +33,29 @@ class _FireOffState extends State<FireOff> {
     super.initState();
   }
 
-  // notification을 클릭하면 /on화면으로 전환한다.
+  // notification을 클릭하면 /booriya 화면으로 전환한다.
   Future<dynamic> selectionNotification(payload) async {
-    Navigator.pushNamed(context, "/on");
+    Navigator.pushNamed(context, "/booriya");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("화재 발생 정보"),
+        title: const Text("화재 발생 정보"),
       ),
       body: Center(
         child: Container(
           width: 300,
           height: 180,
+          decoration: BoxDecoration(
+            color: Colors.grey,
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(30),
             child: Column(
-              children: [
+              children: const [
                 Icon(
                   Icons.block,
                   size: 90,
@@ -67,10 +72,6 @@ class _FireOffState extends State<FireOff> {
                 ),
               ],
             ),
-          ),
-          decoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.circular(10),
           ),
         ),
       ),

@@ -23,7 +23,3 @@ Color buttonColor1() {
 Color backgroundColor() {
   return Color(0xFFFFEBDF);
 }
-
-Color greyColor() {
-  return Colors.grey;
-}

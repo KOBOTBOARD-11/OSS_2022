@@ -1,8 +1,9 @@
 import 'package:booriya/Colors.dart';
 import 'package:booriya/common/info_form_field.dart';
-import 'package:booriya/pages/fire_info_page/components/video_play.dart';
 import 'package:booriya/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'components/video_play.dart';
 
 class FireInfoPage extends StatelessWidget {
   final dataList;
@@ -17,12 +18,12 @@ class FireInfoPage extends StatelessWidget {
     var date = dataList[3];
     return Scaffold(
       appBar: AppBar(
-        title: Text("화재 발생 정보"),
+        title: const Text("화재 발생 정보"),
       ),
       // endDrawer: _buildBooriyaDrawer(context),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: ListView(
@@ -44,8 +45,9 @@ class FireInfoPage extends StatelessWidget {
           "화재 발생 영상",
           style: h5(),
         ),
+        const SizedBox(height: 10),
         VideoPlayerScreen(url: url),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -58,6 +60,7 @@ class FireInfoPage extends StatelessWidget {
           "화재 발생 상세 정보",
           style: h5(),
         ),
+        const SizedBox(height: 10),
         Container(
           width: 300,
           decoration: BoxDecoration(
@@ -72,12 +75,12 @@ class FireInfoPage extends StatelessWidget {
                   titleText: "1. 화재 감지 시간",
                   infoText: date,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 InfoFormField(
                   titleText: "2. 장소",
                   infoText: location,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 InfoFormField(
                   titleText: "3. 발화 장소",
                   infoText: roomName,

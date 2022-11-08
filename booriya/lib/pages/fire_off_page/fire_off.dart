@@ -35,7 +35,7 @@ class _FireOffState extends State<FireOff> {
 
   // notification을 클릭하면 /booriya 화면으로 전환한다.
   Future<dynamic> selectionNotification(payload) async {
-    Navigator.pushNamed(context, "/booriya");
+    Navigator.pushNamed(context, "/on");
   }
 
   @override

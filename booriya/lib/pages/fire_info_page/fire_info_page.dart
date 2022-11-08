@@ -29,7 +29,7 @@ class FireInfoPage extends StatelessWidget {
           child: ListView(
             children: [
               _buildVideo(url),
-              _buildInfo(location, roomName, date),
+              _buildInfo(location, roomName, date.substring(4, 27)),
             ],
           ),
         ),

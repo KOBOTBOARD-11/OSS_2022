@@ -82,6 +82,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
   // detectInfo에 담긴 데이터들을 클릭하면 detail 페이지로 넘어가는 버튼으로 구성해주는 위젯
   Widget _buildDetectButton(String imageUrl, String cctvName, String date,
       String count, BuildContext context) {
+    print(imageUrl);
     return Dismissible(
       key: Key(cctvName),
       child: Card(
@@ -106,7 +107,7 @@ class _FireDetectPageState extends State<FireDetectPage> {
                       arguments: DetailArguments(
                           imageUrl: imageUrl,
                           cctvName: cctvName,
-                          date: date,
+                          date: date.substring(4, 27),
                           count: count),
                     );
                   },

@@ -21,6 +21,7 @@ class Detail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as DetailArguments;
+    print(args.imageUrl);
     return Scaffold(
       appBar: AppBar(
         title: const Text("인원 감지 내역"),

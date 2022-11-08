@@ -43,6 +43,7 @@ dependencies:
   stop_watch_timer: ^1.5.0
   cached_video_player: ^2.0.3
   cached_network_image: ^3.2.1
+  extended_image: ^6.2.1
 
 dev_dependencies:
   flutter_test:

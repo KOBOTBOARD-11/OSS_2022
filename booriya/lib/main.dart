@@ -23,6 +23,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  String? token = await FirebaseMessaging.instance.getToken();
+  print("token : ${token ?? 'token NULL!'}");
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     RemoteNotification? notification = message.notification;
@@ -96,7 +98,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/on",
+      initialRoute: "/off",
       routes: {
         "/on": (context) => const FireOn(),
         "/off": (context) => const FireOff(),

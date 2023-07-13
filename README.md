@@ -3,6 +3,7 @@
 
 ## 📋프로젝트 개요 
 **🔥Booriya!(불이야!)**     
+[🔗프로젝트 발표 자료 보러가기](https://docs.google.com/presentation/d/1JM4zyaxRqVpS-SqscYb68k1aF-b4OnC_xLcr3-SXhzA/edit?usp=sharing)     
 
 건물 내 화재 발생 시 신속하게 건물 CCTV 영상을 기반으로 119에 자동으로 화재 신고를 하고
 출동 중인 소방관들에게 지속적으로 화재 현장 정보(초기 화재 발생 장소, 구조 대상자 등)를
